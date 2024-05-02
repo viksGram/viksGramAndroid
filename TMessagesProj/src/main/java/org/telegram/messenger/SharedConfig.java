@@ -152,6 +152,14 @@ public class SharedConfig {
     public static boolean forceDisableTabletMode;
     public static boolean updateStickersOrderOnSend = true;
     public static boolean bigCameraForRound;
+<<<<<<< HEAD
+=======
+    public static Boolean useCamera2Force;
+    public static boolean useSurfaceInStories;
+    public static boolean photoViewerBlur = true;
+    public static boolean payByInvoice;
+    public static int stealthModeSendMessageConfirm = 2;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private static int lastLocalId = -210000;
 
     public static String storageCacheDir;
@@ -534,6 +542,17 @@ public class SharedConfig {
             updateStickersOrderOnSend = preferences.getBoolean("updateStickersOrderOnSend", true);
             dayNightWallpaperSwitchHint = preferences.getInt("dayNightWallpaperSwitchHint", 0);
             bigCameraForRound = preferences.getBoolean("bigCameraForRound", false);
+<<<<<<< HEAD
+=======
+            useCamera2Force = !preferences.contains("useCamera2Force") ? null : preferences.getBoolean("useCamera2Force", false);
+            useSurfaceInStories = preferences.getBoolean("useSurfaceInStories", Build.VERSION.SDK_INT >= 30);
+            payByInvoice = preferences.getBoolean("payByInvoice", false);
+            photoViewerBlur = preferences.getBoolean("photoViewerBlur", true);
+            multipleReactionsPromoShowed = preferences.getBoolean("multipleReactionsPromoShowed", false);
+            callEncryptionHintDisplayedCount = preferences.getInt("callEncryptionHintDisplayedCount", 0);
+
+            loadDebugConfig(preferences);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
             showNotificationsForAllAccounts = preferences.getBoolean("AllAccounts", true);
@@ -1523,6 +1542,20 @@ public class SharedConfig {
                 .apply();
     }
 
+<<<<<<< HEAD
+=======
+    public static boolean isUsingCamera2(int currentAccount) {
+        return useCamera2Force == null ? !MessagesController.getInstance(currentAccount).androidDisableRoundCamera2 : useCamera2Force;
+    }
+
+    public static void toggleUseCamera2(int currentAccount) {
+        ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
+                .edit()
+                .putBoolean("useCamera2", useCamera2Force = !isUsingCamera2(currentAccount))
+                .apply();
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 
     @Deprecated
     public static int getLegacyDevicePerformanceClass() {

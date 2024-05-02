@@ -775,6 +775,9 @@ public class FileLoadOperation {
                     startDownloadRequest();
                     nextPartWasPreloaded = false;
                 }
+                if (notLoadedBytesRanges != null) {
+                    notifyStreamListeners();
+                }
             });
         } else if (wasPaused && alreadyStarted) {
             Utilities.stageQueue.postRunnable(this::startDownloadRequest);

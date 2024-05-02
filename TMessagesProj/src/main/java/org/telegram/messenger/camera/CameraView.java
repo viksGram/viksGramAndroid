@@ -39,6 +39,11 @@ import android.os.Build;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+<<<<<<< HEAD
+=======
+import android.os.VibrationEffect;
+import android.os.Vibrator;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.Surface;
@@ -49,14 +54,24 @@ import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
+<<<<<<< HEAD
 
 import com.exteragram.messenger.camera.BaseCameraView;
+=======
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.FileLog;
+<<<<<<< HEAD
+=======
+import org.telegram.messenger.ImageLoader;
+import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.R;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.video.MP4Builder;
 import org.telegram.messenger.video.Mp4Movie;
@@ -102,6 +117,13 @@ public class CameraView extends BaseCameraView implements TextureView.SurfaceTex
     private int focusAreaSize;
     private Drawable thumbDrawable;
 
+<<<<<<< HEAD
+=======
+    private final boolean useCamera2 = false && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && SharedConfig.isUsingCamera2(UserConfig.selectedAccount);
+    private final CameraSessionWrapper[] cameraSession = new CameraSessionWrapper[2];
+    private CameraSessionWrapper cameraSessionRecording;
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private boolean useMaxPreview;
 
     private long lastDrawTime;

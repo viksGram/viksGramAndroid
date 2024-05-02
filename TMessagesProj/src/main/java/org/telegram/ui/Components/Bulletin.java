@@ -18,6 +18,10 @@ import android.graphics.RectF;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+<<<<<<< HEAD
+=======
+import android.os.Bundle;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.text.TextUtils;
@@ -588,6 +592,21 @@ public class Bulletin {
             return 0;
         }
 
+<<<<<<< HEAD
+=======
+        default boolean bottomOffsetAnimated() {
+            return true;
+        }
+
+        default int getLeftPadding() {
+            return 0;
+        }
+
+        default int getRightPadding() {
+            return 0;
+        }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         default int getTopOffset(int tag) {
             return 0;
         }
@@ -814,7 +833,7 @@ public class Bulletin {
         }
 
         public float getBottomOffset() {
-            if (bulletin != null && bulletin.bottomOffsetSpring != null && bulletin.bottomOffsetSpring.isRunning()) {
+            if (bulletin != null && (delegate == null || delegate.bottomOffsetAnimated()) && bulletin.bottomOffsetSpring != null && bulletin.bottomOffsetSpring.isRunning()) {
                 return bulletin.lastBottomOffset;
             }
             return delegate.getBottomOffset(bulletin != null ? bulletin.tag : 0);
@@ -1235,6 +1254,155 @@ public class Bulletin {
         }
     }
 
+<<<<<<< HEAD
+=======
+    public static class LottieLayoutWithReactions extends LottieLayout implements NotificationCenter.NotificationCenterDelegate {
+
+        private ReactionsContainerLayout reactionsContainerLayout;
+        private SparseLongArray newMessagesByIds;
+        private final BaseFragment fragment;
+        private final int messagesCount;
+
+        public LottieLayoutWithReactions(BaseFragment fragment, int messagesCount) {
+            super(fragment.getContext(), fragment.getResourceProvider());
+            this.fragment = fragment;
+            this.messagesCount = messagesCount;
+            init();
+        }
+
+        private Bulletin bulletin;
+        public void setBulletin(Bulletin b) {
+            this.bulletin = b;
+        }
+
+        public void init() {
+            textView.setLayoutParams(LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.TOP, 56, 6, 8, 0));
+            imageView.setLayoutParams(LayoutHelper.createFrameRelatively(56, 48, Gravity.START | Gravity.TOP));
+            reactionsContainerLayout = new ReactionsContainerLayout(ReactionsContainerLayout.TYPE_TAGS, fragment, getContext(), fragment.getCurrentAccount(), fragment.getResourceProvider()) {
+                @Override
+                protected void onShownCustomEmojiReactionDialog() {
+                    Bulletin bulletin = Bulletin.getVisibleBulletin();
+                    if (bulletin != null) {
+                        bulletin.setCanHide(false);
+                    }
+                    reactionsContainerLayout.getReactionsWindow().windowView.setOnClickListener(v -> {
+                        hideReactionsDialog();
+                        Bulletin.hideVisible();
+                    });
+                }
+
+                @Override
+                public boolean dispatchTouchEvent(MotionEvent ev) {
+                    if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+                        if (bulletin != null) {
+                            bulletin.setCanHide(false);
+                        }
+                    } else if (ev.getAction() == MotionEvent.ACTION_UP) {
+                        if (bulletin != null) {
+                            bulletin.setCanHide(true);
+                        }
+                    }
+                    return super.dispatchTouchEvent(ev);
+                }
+            };
+            reactionsContainerLayout.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(24), AndroidUtilities.dp(4), AndroidUtilities.dp(0));
+            reactionsContainerLayout.setDelegate(new ReactionsContainerLayout.ReactionsContainerDelegate() {
+                @Override
+                public void onReactionClicked(View view, ReactionsLayoutInBubble.VisibleReaction visibleReaction, boolean longpress, boolean addToRecent) {
+                    if (newMessagesByIds == null) {
+                        return;
+                    }
+                    final long selfId = UserConfig.getInstance(fragment.getCurrentAccount()).getClientUserId();
+                    boolean isFragmentSavedMessages = fragment instanceof ChatActivity && ((ChatActivity) fragment).getDialogId() == selfId;
+                    int lastMessageId = 0;
+                    for (int i = 0; i < newMessagesByIds.size(); i++) {
+                        int key = newMessagesByIds.keyAt(i);
+                        TLRPC.Message message = new TLRPC.Message();
+                        message.dialog_id = fragment.getUserConfig().getClientUserId();
+                        message.id = key;
+                        MessageObject messageObject = new MessageObject(fragment.getCurrentAccount(), message, false, false);
+                        ArrayList<ReactionsLayoutInBubble.VisibleReaction> visibleReactions = new ArrayList<>();
+                        visibleReactions.add(visibleReaction);
+                        fragment.getSendMessagesHelper().sendReaction(messageObject, visibleReactions, visibleReaction, false, false, fragment, null);
+                        lastMessageId = message.id;
+                    }
+                    hideReactionsDialog();
+                    Bulletin.hideVisible();
+                    showTaggedReactionToast(visibleReaction, fragment.getCurrentAccount(), lastMessageId, !isFragmentSavedMessages);
+                }
+
+                private void showTaggedReactionToast(ReactionsLayoutInBubble.VisibleReaction visibleReaction, int currentAccount, int messageId, boolean addViewButton) {
+                    AndroidUtilities.runOnUIThread(() -> {
+                        BaseFragment baseFragment = LaunchActivity.getLastFragment();
+                        TLRPC.Document document;
+                        if (visibleReaction.documentId == 0) {
+                            TLRPC.TL_availableReaction availableReaction = MediaDataController.getInstance(UserConfig.selectedAccount).getReactionsMap().get(visibleReaction.emojicon);
+                            if (availableReaction == null) {
+                                return;
+                            }
+                            document = availableReaction.activate_animation;
+                        } else {
+                            document = AnimatedEmojiDrawable.findDocument(UserConfig.selectedAccount, visibleReaction.documentId);
+                        }
+
+                        if (document == null || baseFragment == null) {
+                            return;
+                        }
+
+                        BulletinFactory.of(baseFragment).createMessagesTaggedBulletin(messagesCount, document, addViewButton ? () -> {
+                            Bundle args = new Bundle();
+                            args.putLong("user_id", UserConfig.getInstance(currentAccount).getClientUserId());
+                            args.putInt("message_id", messageId);
+                            baseFragment.presentFragment(new ChatActivity(args));
+                        } : null).show(true);
+                    }, 300);
+                }
+            });
+            reactionsContainerLayout.setTop(true);
+            reactionsContainerLayout.setClipChildren(false);
+            reactionsContainerLayout.setClipToPadding(false);
+            reactionsContainerLayout.setVisibility(View.VISIBLE);
+            reactionsContainerLayout.setBubbleOffset(-AndroidUtilities.dp(80));
+            reactionsContainerLayout.setHint(LocaleController.getString(R.string.SavedTagReactionsHint));
+            addView(reactionsContainerLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 92.5f, Gravity.CENTER_HORIZONTAL, 0, 36, 0, 0));
+            reactionsContainerLayout.setMessage(null, null, true);
+        }
+
+        @Override
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.savedMessagesForwarded);
+        }
+
+        @Override
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.savedMessagesForwarded);
+        }
+
+        public void hideReactionsDialog() {
+            if (reactionsContainerLayout.getReactionsWindow() != null) {
+                reactionsContainerLayout.dismissWindow();
+                if (reactionsContainerLayout.getReactionsWindow().containerView != null) {
+                    reactionsContainerLayout.getReactionsWindow().containerView.animate().alpha(0).setDuration(180).start();
+                }
+            }
+        }
+
+        @Override
+        protected int getMeasuredBackgroundHeight() {
+            return textView.getMeasuredHeight() + AndroidUtilities.dp(30);
+        }
+
+        @Override
+        public void didReceivedNotification(int id, int account, Object... args) {
+            if (id == NotificationCenter.savedMessagesForwarded) {
+                newMessagesByIds = (SparseLongArray) args[0];
+            }
+        }
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public static class LottieLayout extends ButtonLayout {
 
         public RLottieImageView imageView;

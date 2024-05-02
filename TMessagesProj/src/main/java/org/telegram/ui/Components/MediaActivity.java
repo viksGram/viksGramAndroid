@@ -73,6 +73,37 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
     }
 
     @Override
+<<<<<<< HEAD
+=======
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        getNotificationCenter().removeObserver(this, NotificationCenter.userInfoDidLoad);
+        getNotificationCenter().removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
+        getNotificationCenter().removeObserver(this, NotificationCenter.storiesEnabledUpdate);
+        if (applyBulletin != null) {
+            Runnable runnable = applyBulletin;
+            applyBulletin = null;
+            AndroidUtilities.runOnUIThread(runnable);
+        }
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.userInfoDidLoad) {
+            long uid = (long) args[0];
+            if (uid == dialogId) {
+                currentUserInfo = (TLRPC.UserFull) args[1];
+                if (sharedMediaLayout != null) {
+                    sharedMediaLayout.setUserInfo(currentUserInfo);
+                }
+            }
+        } else if (id == NotificationCenter.currentUserPremiumStatusChanged || id == NotificationCenter.storiesEnabledUpdate) {
+
+        }
+    }
+
+    @Override
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public View createView(Context context) {
         actionBar.setBackButtonDrawable(new BackDrawable(false));
         actionBar.setCastShadows(false);
@@ -163,6 +194,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         avatarImageView.setImageDrawable(avatarDrawable);
         avatarContainer.addView(avatarImageView, LayoutHelper.createFrame(42, 42, Gravity.TOP | Gravity.LEFT, 64, 0, 0, 0));
 
+<<<<<<< HEAD
         mediaCounterTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
             protected TextView createTextView() {
@@ -177,6 +209,104 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         };
         avatarContainer.addView(mediaCounterTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 56, 0));
         sharedMediaLayout = new SharedMediaLayout(context, dialogId, sharedMediaPreloader, 0, null, currentChatInfo, false, this, new SharedMediaLayout.Delegate() {
+=======
+        selectedTextView = new AnimatedTextView(context, true, true, true);
+        selectedTextView.setAnimationProperties(.4f, 0, 320, CubicBezierInterpolator.EASE_OUT_QUINT);
+        selectedTextView.setTextSize(dp(20));
+        selectedTextView.setGravity(Gravity.LEFT);
+        selectedTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+        selectedTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        avatarContainer.addView(selectedTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.FILL_HORIZONTAL | Gravity.CENTER_VERTICAL, 72 + (hasAvatar ? 48 : 0), -2, 72, 0));
+
+        if (type == TYPE_STORIES) {
+            tabsView = new StoriesTabsView(context, getResourceProvider());
+            tabsView.setOnTabClick(i -> {
+                sharedMediaLayout.scrollToPage(SharedMediaLayout.TAB_STORIES + i);
+            });
+
+            buttonContainer = new FrameLayout(context);
+            buttonContainer.setPadding(dp(10), dp(8), dp(10), dp(8));
+            buttonContainer.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+            button = new ButtonWithCounterView(context, getResourceProvider());
+            button.setText(LocaleController.getString("SaveToProfile", R.string.SaveToProfile), false);
+            button.setShowZero(true);
+            button.setCount(0, false);
+            button.setEnabled(false);
+            button.setOnClickListener(v -> {
+                if (applyBulletin != null) {
+                    applyBulletin.run();
+                    applyBulletin = null;
+                }
+                Bulletin.hideVisible();
+                boolean pin = sharedMediaLayout.getClosestTab() == SharedMediaLayout.TAB_ARCHIVED_STORIES;
+                int count = 0;
+                ArrayList<TL_stories.StoryItem> storyItems = new ArrayList<>();
+                if (actionModeMessageObjects != null) {
+                    for (int i = 0; i < actionModeMessageObjects.size(); ++i) {
+                        MessageObject messageObject = actionModeMessageObjects.valueAt(i);
+                        if (messageObject.storyItem != null) {
+                            storyItems.add(messageObject.storyItem);
+                            count++;
+                        }
+                    }
+                }
+                sharedMediaLayout.closeActionMode(false);
+                if (pin) {
+                    sharedMediaLayout.scrollToPage(SharedMediaLayout.TAB_STORIES);
+                }
+                if (storyItems.isEmpty()) {
+                    return;
+                }
+                boolean[] pastValues = new boolean[storyItems.size()];
+                for (int i = 0; i < storyItems.size(); ++i) {
+                    TL_stories.StoryItem storyItem = storyItems.get(i);
+                    pastValues[i] = storyItem.pinned;
+                    storyItem.pinned = pin;
+                }
+                getMessagesController().getStoriesController().updateStoriesInLists(dialogId, storyItems);
+                final boolean[] undone = new boolean[] { false };
+                applyBulletin = () -> {
+                    getMessagesController().getStoriesController().updateStoriesPinned(dialogId, storyItems, pin, null);
+                };
+                final Runnable undo = () -> {
+                    undone[0] = true;
+                    AndroidUtilities.cancelRunOnUIThread(applyBulletin);
+                    for (int i = 0; i < storyItems.size(); ++i) {
+                        TL_stories.StoryItem storyItem = storyItems.get(i);
+                        storyItem.pinned = pastValues[i];
+                    }
+                    getMessagesController().getStoriesController().updateStoriesInLists(dialogId, storyItems);
+                };
+                Bulletin bulletin;
+                if (pin) {
+                    bulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.contact_check, LocaleController.formatPluralString("StorySavedTitle", count), LocaleController.getString("StorySavedSubtitle"), LocaleController.getString("Undo"), undo).show();
+                } else {
+                    bulletin = BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_archived, LocaleController.formatPluralString("StoryArchived", count), LocaleController.getString("Undo"), Bulletin.DURATION_PROLONG, undo).show();
+                }
+                bulletin.setOnHideListener(() -> {
+                    if (!undone[0] && applyBulletin != null) {
+                        applyBulletin.run();
+                    }
+                    applyBulletin = null;
+                });
+            });
+            buttonContainer.addView(button);
+            buttonContainer.setAlpha(0f);
+            buttonContainer.setTranslationY(dp(100));
+
+            Bulletin.addDelegate(this, new Bulletin.Delegate() {
+                @Override
+                public int getBottomOffset(int tag) {
+                    return AndroidUtilities.dp(64);
+                }
+            });
+        }
+
+        if (type == TYPE_MEDIA && dialogId == getUserConfig().getClientUserId() && topicId == 0 && !getMessagesController().getSavedMessagesController().unsupported && getMessagesController().getSavedMessagesController().hasDialogs()) {
+            initialTab = SharedMediaLayout.TAB_SAVED_DIALOGS;
+        }
+        sharedMediaLayout = new SharedMediaLayout(context, dialogId, sharedMediaPreloader, 0, null, currentChatInfo, currentUserInfo, initialTab, this, new SharedMediaLayout.Delegate() {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             @Override
             public void scrollToSharedMedia() {
 
@@ -233,6 +363,161 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
             protected void invalidateBlur() {
                 fragmentView.invalidateBlur();
             }
+<<<<<<< HEAD
+=======
+
+            @Override
+            protected boolean isStoriesView() {
+                return type == TYPE_STORIES || type == TYPE_ARCHIVED_CHANNEL_STORIES;
+            }
+
+            protected boolean customTabs() {
+                return type == TYPE_STORIES || type == TYPE_ARCHIVED_CHANNEL_STORIES;
+            }
+
+            @Override
+            protected boolean includeStories() {
+                return type == TYPE_STORIES || type == TYPE_ARCHIVED_CHANNEL_STORIES;
+            }
+
+            @Override
+            protected boolean includeSavedDialogs() {
+                return type == TYPE_MEDIA && dialogId == getUserConfig().getClientUserId() && topicId == 0;
+            }
+
+            @Override
+            protected boolean isArchivedOnlyStoriesView() {
+                return type == TYPE_ARCHIVED_CHANNEL_STORIES;
+            }
+
+            @Override
+            protected int getInitialTab() {
+                return initialTab;
+            }
+
+            private AnimatorSet actionModeAnimation;
+
+            @Override
+            protected void showActionMode(boolean show) {
+                if (type == TYPE_MEDIA) {
+                    super.showActionMode(show);
+                    return;
+                }
+                if (isActionModeShowed == show) {
+                    return;
+                }
+                isActionModeShowed = show;
+                if (actionModeAnimation != null) {
+                    actionModeAnimation.cancel();
+                }
+                if (type == TYPE_STORIES || type == TYPE_ARCHIVED_CHANNEL_STORIES) {
+                    disableScroll(show);
+                }
+                if (show) {
+                    selectedTextView.setVisibility(VISIBLE);
+                    if (buttonContainer != null) {
+                        buttonContainer.setVisibility(VISIBLE);
+                    }
+                } else {
+                    titlesContainer.setVisibility(VISIBLE);
+                }
+                backDrawable.setRotation(show ? 1f : 0f, true);
+                actionModeAnimation = new AnimatorSet();
+                ArrayList<Animator> animators = new ArrayList<>();
+                animators.add(ObjectAnimator.ofFloat(selectedTextView, View.ALPHA, show ? 1.0f : 0.0f));
+                animators.add(ObjectAnimator.ofFloat(titlesContainer, View.ALPHA, show ? 0.0f : 1.0f));
+                if (buttonContainer != null) {
+                    boolean showButton = show;
+                    animators.add(ObjectAnimator.ofFloat(buttonContainer, View.ALPHA, showButton ? 1.0f : 0.0f));
+                    animators.add(ObjectAnimator.ofFloat(buttonContainer, View.TRANSLATION_Y, showButton ? 0.0f : buttonContainer.getMeasuredHeight()));
+                }
+                if (deleteItem != null) {
+                    deleteItem.setVisibility(View.VISIBLE);
+                    animators.add(ObjectAnimator.ofFloat(deleteItem, View.ALPHA, show ? 1.0f : 0.0f));
+                }
+                final boolean empty = getStoriesCount(getClosestTab()) == 0;
+                if (optionsItem != null) {
+                    optionsItem.setVisibility(View.VISIBLE);
+                    animators.add(ObjectAnimator.ofFloat(optionsItem, View.ALPHA, show || empty ? 0.0f : 1.0f));
+                }
+                if (tabsView != null) {
+                    animators.add(ObjectAnimator.ofFloat(tabsView, View.ALPHA, show ? 0.4f : 1.0f));
+                }
+                actionModeAnimation.playTogether(animators);
+                actionModeAnimation.setDuration(300);
+                actionModeAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                actionModeAnimation.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+                        actionModeAnimation = null;
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        if (actionModeAnimation == null) {
+                            return;
+                        }
+                        actionModeAnimation = null;
+                        if (!show) {
+                            selectedTextView.setVisibility(INVISIBLE);
+                            if (buttonContainer != null) {
+                                buttonContainer.setVisibility(INVISIBLE);
+                            }
+                            if (deleteItem != null) {
+                                deleteItem.setVisibility(View.GONE);
+                            }
+                            if (empty && optionsItem != null) {
+                                optionsItem.setVisibility(View.GONE);
+                            }
+                        } else {
+                            titlesContainer.setVisibility(INVISIBLE);
+                            if (optionsItem != null) {
+                                optionsItem.setVisibility(View.GONE);
+                            }
+                        }
+                    }
+                });
+                actionModeAnimation.start();
+            }
+
+            @Override
+            protected void onActionModeSelectedUpdate(SparseArray<MessageObject> messageObjects) {
+                final int count = messageObjects.size();
+                actionModeMessageObjects = messageObjects;
+                if (type == TYPE_STORIES || type == TYPE_ARCHIVED_CHANNEL_STORIES) {
+                    selectedTextView.cancelAnimation();
+                    selectedTextView.setText(LocaleController.formatPluralString("StoriesSelected", count), !LocaleController.isRTL);
+                    if (button != null) {
+                        button.setEnabled(count > 0);
+                        button.setCount(count, true);
+                        if (sharedMediaLayout.getClosestTab() == SharedMediaLayout.TAB_STORIES) {
+                            button.setText(LocaleController.formatPluralString("ArchiveStories", count), true);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            protected void onTabProgress(float progress) {
+                if (type != TYPE_STORIES)
+                    return;
+                float t = progress - TAB_STORIES;
+                if (tabsView != null) {
+                    tabsView.setProgress(t);
+                }
+                titles[0].setAlpha(1f - t);
+                titles[0].setTranslationX(AndroidUtilities.dp(-12) * t);
+                titles[1].setAlpha(t);
+                titles[1].setTranslationX(AndroidUtilities.dp(12) * (1f - t));
+            }
+
+            @Override
+            protected void onTabScroll(boolean scrolling) {
+                if (tabsView != null) {
+                    tabsView.setScrolling(scrolling);
+                }
+            }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         };
         sharedMediaLayout.setPinnedToTop(true);
         sharedMediaLayout.getSearchItem().setTranslationY(0);

@@ -90,7 +90,9 @@ public class PaintWeightChooserView extends View {
                         colorSwatch.brushWeight = weight;
                     }
                     animatedWeight.set(weight, true);
-                    onUpdate.run();
+                    if (onUpdate != null) {
+                        onUpdate.run();
+                    }
                     invalidate();
                 }
                 return isTouchInProgress;
@@ -149,6 +151,11 @@ public class PaintWeightChooserView extends View {
 
     public void setColorSwatch(Swatch colorSwatch) {
         this.colorSwatch = colorSwatch;
+        invalidate();
+    }
+
+    public void setBrushWeight(float brushWeight) {
+        this.colorSwatch.brushWeight = brushWeight;
         invalidate();
     }
 
@@ -259,7 +266,7 @@ public class PaintWeightChooserView extends View {
             false
         );
 
-        if (drawCenter && showProgress != 0f && showPreview) {
+        if (drawCenter && showProgress != 0f && showPreview && renderView != null) {
             float cx = getWidth() / 2f, cy = getHeight() / 2f, rad = renderView.brushWeightForSize(weight) * renderView.getCurrentBrush().getScale() * renderView.getCurrentBrush().getPreviewScale();
             drawCircleWithShadow(canvas, cx, cy, rad, true);
         }

@@ -18,11 +18,17 @@ import org.telegram.ui.ActionBar.Theme;
 public class ColoredImageSpan extends ReplacementSpan {
 
     int drawableColor;
-    Drawable drawable;
+    public Drawable drawable;
 
     boolean usePaintColor = true;
     int colorKey;
     private int topOffset = 0;
+<<<<<<< HEAD
+=======
+    private float translateX, translateY, rotate;
+    private float alpha = 1f;
+    private int overrideColor;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 
     private int size;
 
@@ -56,9 +62,51 @@ public class ColoredImageSpan extends ReplacementSpan {
         drawable.setBounds(0, 0, size, size);
     }
 
+<<<<<<< HEAD
     @Override
     public int getSize(@NonNull Paint paint, CharSequence charSequence, int i, int i1, @Nullable Paint.FontMetricsInt fontMetricsInt) {
         return size != 0 ? size : drawable.getIntrinsicWidth();
+=======
+    public void setTranslateX(float tx) {
+        translateX = tx;
+    }
+
+    public void setTranslateY(float ty) {
+        translateY = ty;
+    }
+
+    public void translate(float tx, float ty) {
+        translateX = tx;
+        translateY = ty;
+    }
+
+    public void rotate(float r) {
+        rotate = r;
+    }
+
+    public void setWidth(int width) {
+        sizeWidth = width;
+    }
+
+    @Override
+    public int getSize(@NonNull Paint paint, CharSequence charSequence, int i, int i1, @Nullable Paint.FontMetricsInt fm) {
+        if (isRelativeSize && fontMetrics != null) {
+            if (fm == null) {
+                fm = new Paint.FontMetricsInt();
+            }
+            if (fm != null) {
+                fm.ascent = fontMetrics.ascent;
+                fm.descent = fontMetrics.descent;
+
+                fm.top = fontMetrics.top;
+                fm.bottom = fontMetrics.bottom;
+            }
+            return (int) (Math.abs(scaleX) * Math.abs(spaceScaleX) * size);
+        }
+        if (sizeWidth != 0)
+            return (int) (Math.abs(scaleX) * sizeWidth);
+        return (int) (Math.abs(scaleX) * Math.abs(spaceScaleX) * (size != 0 ? size : drawable.getIntrinsicWidth()));
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     }
 
     @Override
@@ -88,6 +136,18 @@ public class ColoredImageSpan extends ReplacementSpan {
         }
         canvas.translate(x, transY);
         if (drawable != null) {
+<<<<<<< HEAD
+=======
+            if (scaleX != 1f || scaleY != 1f) {
+                canvas.scale(scaleX, scaleY, 0, drawable.getBounds().centerY());
+            }
+            if (rotate != 1f) {
+                canvas.rotate(rotate, drawable.getBounds().centerX(), drawable.getBounds().centerY());
+            }
+            if (alpha != 1f || paint.getAlpha() != 0xFF) {
+                drawable.setAlpha((int) (alpha * paint.getAlpha()));
+            }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             drawable.draw(canvas);
         }
         canvas.restore();

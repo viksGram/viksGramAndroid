@@ -170,6 +170,10 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
     private Size aspectRatio = SharedConfig.roundCamera16to9 ? new Size(16, 9) : new Size(4, 3);
     private TextureView textureView;
     private BackupImageView textureOverlayView;
+<<<<<<< HEAD
+=======
+    private final boolean useCamera2 = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && SharedConfig.isUsingCamera2(currentAccount);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private CameraSession cameraSession;
     private CameraXController cameraXController;
     private CameraXController.CameraLifecycle camLifecycle;

@@ -430,8 +430,17 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             }
         } else if (id == NotificationCenter.messagePlayingDidSeek) {
             MessageObject messageObject = MediaController.getInstance().getPlayingMessageObject();
+<<<<<<< HEAD
             if (remoteControlClient != null) {
                 long progress = Math.round(messageObject.audioPlayerDuration * (float) args[1]) * 1000L;
+=======
+            if (messageObject == null) {
+                return;
+            }
+            long progress = Math.round(messageObject.audioPlayerDuration * (float) args[1]) * 1000L;
+            updatePlaybackState(progress);
+            if (remoteControlClient != null && Build.VERSION.SDK_INT >= 18) {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 remoteControlClient.setPlaybackState(MediaController.getInstance().isMessagePaused() ? RemoteControlClient.PLAYSTATE_PAUSED : RemoteControlClient.PLAYSTATE_PLAYING,
                         progress,
                         MediaController.getInstance().isMessagePaused() ? 0f : 1f);

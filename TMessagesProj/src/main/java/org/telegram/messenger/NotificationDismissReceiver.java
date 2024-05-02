@@ -25,8 +25,17 @@ public class NotificationDismissReceiver extends BroadcastReceiver {
         }
         long dialogId = intent.getLongExtra("dialogId", 0);
         int date = intent.getIntExtra("messageDate", 0);
+<<<<<<< HEAD
         if (dialogId == 0) {
             MessagesController.getNotificationsSettings(currentAccount).edit().putInt("dismissDate", date).apply();
+=======
+        if (intent.hasExtra("story") && intent.getBooleanExtra("story", false)) {
+            NotificationsController.getInstance(currentAccount).processIgnoreStories();
+        } else if (intent.hasExtra("storyReaction") && intent.getBooleanExtra("storyReaction", false)) {
+            NotificationsController.getInstance(currentAccount).processIgnoreStoryReactions();
+        } else if (dialogId == 0) {
+            MessagesController.getNotificationsSettings(currentAccount).edit().putInt("dismissDate", date).commit();
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         } else {
             MessagesController.getNotificationsSettings(currentAccount).edit().putInt("dismissDate" + dialogId, date).apply();
         }

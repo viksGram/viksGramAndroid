@@ -54,6 +54,12 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
 
     public static native long create(String src, String json, int w, int h, int[] params, boolean precache, int[] colorReplacement, boolean limitFps, int fitzModifier);
 
+<<<<<<< HEAD
+=======
+    public static native long getFramesCount(String src, String json);
+    public static native double getDuration(String src, String json);
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     protected static native long createWithJson(String json, String name, int[] params, int[] colorReplacement);
 
     public static native void destroy(long ptr);

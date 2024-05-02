@@ -1096,7 +1096,24 @@ public class MediaDataController extends BaseController {
     }
 
     public TLRPC.TL_messages_stickerSet getStickerSetByName(String name) {
-        return stickerSetsByName.get(name);
+        if (name == null) return null;
+        return stickerSetsByName.get(name.toLowerCase());
+    }
+
+    public void findStickerSetByNameInCache(String name, Utilities.Callback<TLRPC.TL_messages_stickerSet> whenFound) {
+        if (whenFound == null)
+            return;
+        if (name == null) {
+            whenFound.run(null);
+            return;
+        }
+        getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            TLRPC.TL_messages_stickerSet cachedSet = getCachedStickerSetInternal(name.toLowerCase(), 0);
+            AndroidUtilities.runOnUIThread(() -> {
+                putStickerSet(cachedSet, false);
+                whenFound.run(cachedSet);
+            });
+        });
     }
 
     public TLRPC.TL_messages_stickerSet getStickerSetByEmojiOrName(String emoji) {
@@ -1209,6 +1226,61 @@ public class MediaDataController extends BaseController {
         return null;
     }
 
+<<<<<<< HEAD
+=======
+    public void putStickerSet(TLRPC.TL_messages_stickerSet set) {
+        putStickerSet(set, true);
+    }
+
+    public void putStickerSet(TLRPC.TL_messages_stickerSet set, boolean notify) {
+        if (set == null || set.set == null) return;
+        stickerSetsById.put(set.set.id, set);
+        if (!TextUtils.isEmpty(set.set.short_name)) {
+            stickerSetsByName.put(set.set.short_name.toLowerCase(), set);
+        }
+        for (int i = 0; i < stickerSets.length; ++i) {
+            ArrayList<TLRPC.TL_messages_stickerSet> sets = stickerSets[i];
+            if (sets != null) {
+                for (int j = 0; j < sets.size(); ++j) {
+                    TLRPC.TL_messages_stickerSet setB = sets.get(j);
+                    if (setB != null && setB.set != null && setB.set.id == set.set.id) {
+                        sets.set(j, set);
+                    }
+                }
+            }
+        }
+        if (groupStickerSets.containsKey(set.set.id)) {
+            groupStickerSets.put(set.set.id, set);
+        }
+        saveStickerSetIntoCache(set);
+        int type = TYPE_IMAGE;
+        if (set.set.masks) {
+            type = TYPE_MASK;
+        } else if (set.set.emojis) {
+            type = TYPE_EMOJIPACKS;
+        }
+        if (notify) {
+            getNotificationCenter().postNotificationName(NotificationCenter.stickersDidLoad, type, true);
+        }
+    }
+
+    private boolean cleanedupStickerSetCache;
+    private void cleanupStickerSetCache() {
+        if (cleanedupStickerSetCache) {
+            return;
+        }
+        cleanedupStickerSetCache = true;
+        getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            try {
+                final long minDate = (System.currentTimeMillis() - 1000 * 60 * 60 * 24 * 7);
+                getMessagesStorage().getDatabase().executeFast("DELETE FROM stickersets2 WHERE date < " + minDate).stepThis().dispose();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        });
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private void saveStickerSetIntoCache(TLRPC.TL_messages_stickerSet set) {
         if (set == null || set.set == null) {
             return;
@@ -1859,8 +1931,11 @@ public class MediaDataController extends BaseController {
     }
 
     public void storeTempStickerSet(TLRPC.TL_messages_stickerSet set) {
+        if (set == null || set.set == null) return;
         stickerSetsById.put(set.set.id, set);
-        stickerSetsByName.put(set.set.short_name, set);
+        if (set.set.short_name != null) {
+            stickerSetsByName.put(set.set.short_name.toLowerCase(), set);
+        }
     }
 
     public void addNewStickerSet(TLRPC.TL_messages_stickerSet set) {
@@ -3023,7 +3098,9 @@ public class MediaDataController extends BaseController {
                 stickerSets[type].add(finalCurrentIndex, messages_stickerSet);
                 stickerSetsById.put(stickerSet.id, messages_stickerSet);
                 installedStickerSetsById.put(stickerSet.id, messages_stickerSet);
-                stickerSetsByName.put(stickerSet.short_name, messages_stickerSet);
+                if (stickerSet.short_name != null) {
+                    stickerSetsByName.put(stickerSet.short_name.toLowerCase(), messages_stickerSet);
+                }
                 removingStickerSetsUndos.remove(stickerSet.id);
 
                 loadHash[type] = calcStickersHash(stickerSets[type]);
@@ -5382,7 +5459,12 @@ public class MediaDataController extends BaseController {
                                     MessageObject object = arrayList.get(b);
                                     object.replyMessageObject = messageObject;
                                     object.messageOwner.reply_to = new TLRPC.TL_messageReplyHeader();
+<<<<<<< HEAD
                                     object.messageOwner.reply_to.reply_to_msg_id = messageObject.getId();
+=======
+                                    object.messageOwner.reply_to.flags |= 16;
+                                    object.messageOwner.reply_to.reply_to_msg_id = messageObject.getRealId();
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                                 }
                             }
                         }
@@ -5415,7 +5497,70 @@ public class MediaDataController extends BaseController {
                 if (messageObject == null) {
                     continue;
                 }
+<<<<<<< HEAD
                 if (messageObject.getId() > 0 && messageObject.isReply()) {
+=======
+                if (!messageObject.isReplyToStory() && messageObject.isReply() && messageObject.getRealId() > 0) {
+                    if (messageObject.messageOwner.reply_to.reply_to_peer_id != null) {
+                        continue;
+                    }
+                    int reply_to_id = messageObject.messageOwner.reply_to.reply_to_msg_id;
+                    for (int j = 0; j < messages.size(); ++j) {
+                        if (a == j) continue;
+                        if (messages.get(j) != null && messages.get(j).getRealId() == reply_to_id) {
+                            messageObject.replyMessageObject = messages.get(j);
+                            messageObject.applyTimestampsHighlightForReplyMsg();
+                            if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionPinMessage) {
+                                messageObject.generatePinMessageText(null, null);
+                            } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGameScore) {
+                                messageObject.generateGameMessageText(null);
+                            } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionPaymentSent) {
+                                messageObject.generatePaymentSentMessageText(null);
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            for (int a = 0; a < messages.size(); a++) {
+                MessageObject messageObject = messages.get(a);
+                if (messageObject == null) {
+                    continue;
+                }
+                if (messageObject.type == MessageObject.TYPE_STORY || messageObject.type == MessageObject.TYPE_STORY_MENTION) {
+                    if (messageObject.messageOwner.media.storyItem == null) {
+                        long storyDialogId = DialogObject.getPeerDialogId(messageObject.messageOwner.media.peer);
+                        if (messagesWithUnknownStories == null) {
+                            messagesWithUnknownStories = new LongSparseArray<>();
+                        }
+                        ArrayList<MessageObject> array = messagesWithUnknownStories.get(storyDialogId);
+                        if (array == null) {
+                            array = new ArrayList<>();
+                            messagesWithUnknownStories.put(storyDialogId, array);
+                        }
+                        array.add(messageObject);
+                    } else {
+                        long storyDialogId = DialogObject.getPeerDialogId(messageObject.messageOwner.media.peer);
+                        messageObject.messageOwner.media.storyItem = StoriesStorage.checkExpiredStateLocal(currentAccount, storyDialogId, messageObject.messageOwner.media.storyItem);
+                    }
+                } else if (messageObject.getRealId() > 0 && messageObject.isReplyToStory()) {
+                    if (messageObject.messageOwner.replyStory == null) {
+                        long storyDialogId = DialogObject.getPeerDialogId(messageObject.messageOwner.reply_to.peer);
+                        if (messagesWithUnknownStories == null) {
+                            messagesWithUnknownStories = new LongSparseArray<>();
+                        }
+                        ArrayList<MessageObject> array = messagesWithUnknownStories.get(storyDialogId);
+                        if (array == null) {
+                            array = new ArrayList<>();
+                            messagesWithUnknownStories.put(storyDialogId, array);
+                        }
+                        array.add(messageObject);
+                    } else {
+                        long storyDialogId = DialogObject.getPeerDialogId(messageObject.messageOwner.reply_to.peer);
+                        messageObject.messageOwner.replyStory = StoriesStorage.checkExpiredStateLocal(currentAccount, storyDialogId, messageObject.messageOwner.replyStory);
+                    }
+                } else if (messageObject.getRealId() > 0 && messageObject.isReply()) {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                     int messageId = messageObject.messageOwner.reply_to.reply_to_msg_id;
                     if (messageId == threadMessageId) {
                         continue;
@@ -6236,7 +6381,7 @@ public class MediaDataController extends BaseController {
             }
 
             if (spannable instanceof Spannable) {
-                AndroidUtilities.addLinks((Spannable) spannable, Linkify.WEB_URLS, false, false);
+                AndroidUtilities.addLinksSafe((Spannable) spannable, Linkify.WEB_URLS, false, false);
                 URLSpan[] spansUrl = spannable.getSpans(0, message[0].length(), URLSpan.class);
                 if (spansUrl != null && spansUrl.length > 0) {
                     if (entities == null) {

@@ -102,21 +102,66 @@ public class ItemOptions {
         return add(iconResId, text, isRed, onClickListener);
     }
 
+<<<<<<< HEAD
+=======
+    public ItemOptions addIf(boolean condition, int iconResId, CharSequence text, Runnable onClickListener) {
+        if (!condition) {
+            return this;
+        }
+        return add(iconResId, text, Theme.key_actionBarDefaultSubmenuItemIcon, Theme.key_actionBarDefaultSubmenuItem, onClickListener);
+    }
+
+    public ItemOptions addIf(boolean condition, int iconResId, Drawable iconDrawable, CharSequence text, Runnable onClickListener) {
+        if (!condition) {
+            return this;
+        }
+        return add(iconResId, iconDrawable, text, Theme.key_actionBarDefaultSubmenuItemIcon, Theme.key_actionBarDefaultSubmenuItem, onClickListener);
+    }
+
+    public ItemOptions add(CharSequence text, Runnable onClickListener) {
+        return add(0, text, false, onClickListener);
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public ItemOptions add(int iconResId, CharSequence text, Runnable onClickListener) {
         return add(iconResId, text, false, onClickListener);
     }
 
     public ItemOptions add(int iconResId, CharSequence text, boolean isRed, Runnable onClickListener) {
+<<<<<<< HEAD
+=======
+        return add(iconResId, text, isRed ? Theme.key_text_RedRegular : Theme.key_actionBarDefaultSubmenuItemIcon, isRed ? Theme.key_text_RedRegular : Theme.key_actionBarDefaultSubmenuItem, onClickListener);
+    }
+
+    public ItemOptions add(int iconResId, CharSequence text, int color, Runnable onClickListener) {
+        return add(iconResId, text, color, color, onClickListener);
+    }
+
+    public ItemOptions add(int iconResId, CharSequence text, int iconColorKey, int textColorKey, Runnable onClickListener) {
+        return add(iconResId, null, text, iconColorKey, textColorKey, onClickListener);
+    }
+
+    public ItemOptions add(int iconResId, Drawable iconDrawable, CharSequence text, int iconColorKey, int textColorKey, Runnable onClickListener) {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         if (context == null) {
             return this;
         }
 
+<<<<<<< HEAD
         ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false);
         subItem.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18 + 8), 0);
         subItem.setTextAndIcon(text, iconResId);
         if (isRed) {
             subItem.setColors(Theme.getColor(Theme.key_text_RedRegular), Theme.getColor(Theme.key_text_RedRegular));
             subItem.setSelectorColor(Theme.multAlpha(Theme.getColor(Theme.key_text_RedRegular), .12f));
+=======
+        ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
+        subItem.setPadding(dp(18), 0, dp(18 + (LocaleController.isRTL ? 0 : 8)), 0);
+        if (iconResId != 0 || iconDrawable != null) {
+            subItem.setTextAndIcon(text, iconResId, iconDrawable);
+        } else {
+            subItem.setText(text);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         }
         subItem.setOnClickListener(view1 -> {
             if (actionBarPopupWindow != null) {

@@ -147,7 +147,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private LinearLayoutManager layoutManager;
     AlertDialog progressDialog;
 
+<<<<<<< HEAD
     private boolean[] selected = new boolean[] { true, true, true, true, true, true, true, true, true };
+=======
+    private boolean[] selected = new boolean[] { true, true, true, true, true, true, true, true, true, true, true };
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private long databaseSize = -1;
     private long cacheSize = -1, cacheEmojiSize = -1, cacheTempSize = -1;
     private long documentsSize = -1;
@@ -155,6 +159,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private long musicSize = -1;
     private long photoSize = -1;
     private long videoSize = -1;
+    private long logsSize = -1;
     private long stickersCacheSize = -1;
     private long totalSize = -1;
     private long totalDeviceSize = -1;
@@ -241,7 +246,16 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             long stickersCacheSize = getDirectorySize(new File(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), "acache"), 0);
             stickersCacheSize += getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), 3);
             long audioSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_AUDIO), 0);
+<<<<<<< HEAD
             final long totalSize = lastTotalSizeCalculated = cacheSize + cacheTempSize + videoSize + audioSize + photoSize + documentsSize + musicSize + stickersCacheSize;
+=======
+            long storiesSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_STORIES), 0);
+            long logsSize = getDirectorySize(AndroidUtilities.getLogsDir(), 1);
+            if (!BuildVars.DEBUG_VERSION && logsSize < 1024 * 1024 * 256) {
+                logsSize = 0;
+            }
+            final long totalSize = lastTotalSizeCalculated = cacheSize + cacheTempSize + videoSize + audioSize + photoSize + documentsSize + musicSize + stickersCacheSize + storiesSize + logsSize;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             lastTotalSizeCalculatedTime = System.currentTimeMillis();
             if (!canceled) {
                 AndroidUtilities.runOnUIThread(() -> {
@@ -343,6 +357,13 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (canceled) {
                 return;
             }
+            logsSize = getDirectorySize(AndroidUtilities.getLogsDir(), 1);
+            if (!BuildVars.DEBUG_VERSION && logsSize < 1024 * 1024 * 256) {
+                logsSize = 0;
+            }
+            if (canceled) {
+                return;
+            }
             documentsSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_DOCUMENT), 1);
             documentsSize += getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_FILES), 1);
             if (canceled) {
@@ -366,7 +387,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (canceled) {
                 return;
             }
+<<<<<<< HEAD
             totalSize = lastTotalSizeCalculated = cacheSize + cacheTempSize + videoSize + audioSize + photoSize + documentsSize + musicSize + stickersCacheSize;
+=======
+            totalSize = lastTotalSizeCalculated = cacheSize + cacheTempSize + videoSize + logsSize + audioSize + photoSize + documentsSize + musicSize + storiesSize + stickersCacheSize;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             lastTotalSizeCalculatedTime = System.currentTimeMillis();
 
             File path;
@@ -417,13 +442,21 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
     private void updateChart() {
         if (cacheChart != null) {
             if (!calculating && totalSize > 0) {
+<<<<<<< HEAD
                 CacheChart.SegmentSize[] segments = new CacheChart.SegmentSize[9];
+=======
+                CacheChart.SegmentSize[] segments = new CacheChart.SegmentSize[11];
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 for (int i = 0; i < itemInners.size(); ++i) {
                     ItemInner item = itemInners.get(i);
                     if (item.viewType == VIEW_TYPE_SECTION) {
                         if (item.index < 0) {
                             if (collapsed) {
+<<<<<<< HEAD
                                 segments[8] = CacheChart.SegmentSize.of(item.size, selected[8]);
+=======
+                                segments[10] = CacheChart.SegmentSize.of(item.size, selected[10]);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                             }
                         } else {
                             segments[item.index] = CacheChart.SegmentSize.of(item.size, selected[item.index]);
@@ -701,19 +734,30 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             if (cacheTempSize > 0) {
                 sections.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalMiscellaneousCache), 7, cacheTempSize, Theme.key_statisticChartLine_purple));
             }
+            if (logsSize > 0) {
+                sections.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalLogsCache), 9, logsSize, Theme.key_statisticChartLine_golden));
+            }
             if (!sections.isEmpty()) {
                 Collections.sort(sections, (a, b) -> Long.compare(b.size, a.size));
                 sections.get(sections.size() - 1).last = true;
                 hasCache = true;
 
                 if (tempSizes == null) {
+<<<<<<< HEAD
                     tempSizes = new float[9];
+=======
+                    tempSizes = new float[11];
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 }
                 for (int i = 0; i < tempSizes.length; ++i) {
                     tempSizes[i] = (float) size(i);
                 }
                 if (percents == null) {
+<<<<<<< HEAD
                     percents = new int[9];
+=======
+                    percents = new int[11];
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 }
                 AndroidUtilities.roundPercents(tempSizes, percents);
 
@@ -727,7 +771,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                         sum += sections.get(i).size;
                         sumPercents += percents[sections.get(i).index];
                     }
+<<<<<<< HEAD
                     percents[8] = sumPercents;
+=======
+                    percents[10] = sumPercents;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                     itemInners.add(ItemInner.asCheckBox(LocaleController.getString(R.string.LocalOther), -1, sum, Theme.key_statisticChartLine_golden));
                     if (!collapsed) {
                         itemInners.addAll(sections.subList(MAX_NOT_COLLAPSED, sections.size()));
@@ -927,7 +975,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         long clearedSize = 0;
         boolean allItemsClear = true;
         final int[] clearDirI = new int[] { 0 };
+<<<<<<< HEAD
         int clearDirCount = (selected[0] ? 2 : 0) + (selected[1] ? 2 : 0) + (selected[2] ? 2 : 0) + (selected[3] ? 2 : 0) + (selected[4] ? 1 : 0) + (selected[5] ? 2 : 0) + (selected[6] ? 1 : 0) + (selected[7] ? 1 : 0);
+=======
+        int clearDirCount = (selected[0] ? 2 : 0) + (selected[1] ? 2 : 0) + (selected[2] ? 2 : 0) + (selected[3] ? 2 : 0) + (selected[4] ? 1 : 0) + (selected[5] ? 2 : 0) + (selected[6] ? 1 : 0) + (selected[7] ? 1 : 0) + (selected[8] ? 1 : 0) + (selected[9] ? 1 : 0);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         long time = System.currentTimeMillis();
         Utilities.Callback<Float> updateProgress = t -> {
             onProgress.run(clearDirI[0] / (float) clearDirCount + (1f / clearDirCount) * MathUtils.clamp(t, 0, 1), false);
@@ -936,7 +988,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             final long now = System.currentTimeMillis();
             onProgress.run(clearDirI[0] / (float) clearDirCount, now - time > 250);
         };
+<<<<<<< HEAD
         for (int a = 0; a < 8; a++) {
+=======
+        for (int a = 0; a < 10; a++) {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             if (!selected[a]) {
                 allItemsClear = false;
                 continue;
@@ -971,12 +1027,18 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 clearedSize += cacheTempSize;
                 documentsMusicType = 4;
                 type = FileLoader.MEDIA_DIR_CACHE;
+            } else if (a == 9) {
+                clearedSize += logsSize;
+                documentsMusicType = 1;
+                type = 0;
             }
             if (type == -1) {
                 continue;
             }
             File file;
-            if (type == 100) {
+            if (a == 9) {
+                file = AndroidUtilities.getLogsDir();
+            } else if (type == 100) {
                 file = new File(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), "acache");
             } else {
                 file = FileLoader.checkDirectory(type);
@@ -1018,7 +1080,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 next.run();
             }
 
-            if (type == FileLoader.MEDIA_DIR_CACHE) {
+            if (a == 9) {
+                logsSize = getDirectorySize(AndroidUtilities.getLogsDir(), 1);
+            } else if (type == FileLoader.MEDIA_DIR_CACHE) {
                 cacheSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), 5);
                 cacheTempSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), 4);
                 imagesCleared = true;
@@ -1047,7 +1111,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             }
         }
         final boolean imagesClearedFinal = imagesCleared;
+<<<<<<< HEAD
         totalSize = lastTotalSizeCalculated = cacheSize + cacheTempSize + videoSize + audioSize + photoSize + documentsSize + musicSize + stickersCacheSize;
+=======
+        totalSize = lastTotalSizeCalculated = cacheSize + cacheTempSize + logsSize + videoSize + audioSize + photoSize + documentsSize + musicSize + stickersCacheSize + storiesSize;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         lastTotalSizeCalculatedTime = System.currentTimeMillis();
         Arrays.fill(selected, true);
 
@@ -1125,16 +1193,28 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             case 2: return documentsSize;
             case 3: return musicSize;
             case 4: return audioSize;
+<<<<<<< HEAD
             case 5: return stickersCacheSize;
             case 6: return cacheSize;
             case 7: return cacheTempSize;
+=======
+            case 5: return storiesSize;
+            case 6: return stickersCacheSize;
+            case 7: return cacheSize;
+            case 8: return cacheTempSize;
+            case 9: return logsSize;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             default: return 0;
         }
     }
 
     private int sectionsSelected() {
         int count = 0;
+<<<<<<< HEAD
         for (int i = 0; i < 8; ++i) {
+=======
+        for (int i = 0; i < 10; ++i) {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             if (selected[i] && size(i) > 0) {
                 count++;
             }
@@ -1954,9 +2034,17 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 (selected[2] ? documentsSize : 0) +
                 (selected[3] ? musicSize : 0) +
                 (selected[4] ? audioSize : 0) +
+<<<<<<< HEAD
                 (selected[5] ? stickersCacheSize : 0) +
                 (selected[6] ? cacheSize : 0) +
                 (selected[7] ? cacheTempSize : 0)
+=======
+                (selected[5] ? storiesSize : 0) +
+                (selected[6] ? stickersCacheSize : 0) +
+                (selected[7] ? cacheSize : 0) +
+                (selected[8] ? cacheTempSize : 0) +
+                (selected[9] ? logsSize : 0)
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             );
             setSize(
                 isAllSectionsSelected(),
@@ -2467,7 +2555,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
             final ItemInner item = itemInners.get(position);
             switch (holder.getItemViewType()) {
                 case VIEW_TYPE_CHART:
-//                    updateChart();
+                    updateChart();
                     break;
                 case VIEW_TYPE_CHART_HEADER:
                     if (cacheChartHeader != null && !calculating) {

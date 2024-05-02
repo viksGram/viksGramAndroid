@@ -95,7 +95,11 @@ public class MessagesStorage extends BaseController {
         }
     }
 
+<<<<<<< HEAD
     public final static int LAST_DB_VERSION = 117;
+=======
+    public final static int LAST_DB_VERSION = 153;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private boolean databaseMigrationInProgress;
     public boolean showClearDatabaseAlert;
     private LongSparseIntArray dialogIsForum = new LongSparseIntArray();
@@ -676,6 +680,37 @@ public class MessagesStorage extends BaseController {
         database.executeFast("CREATE TABLE emoji_groups(type INTEGER PRIMARY KEY, data BLOB)").stepThis().dispose();
         database.executeFast("CREATE TABLE app_config(data BLOB)").stepThis().dispose();
 
+<<<<<<< HEAD
+=======
+        database.executeFast("CREATE TABLE stories (dialog_id INTEGER, story_id INTEGER, data BLOB, custom_params BLOB, PRIMARY KEY (dialog_id, story_id));").stepThis().dispose();
+        database.executeFast("CREATE TABLE stories_counter (dialog_id INTEGER PRIMARY KEY, count INTEGER, max_read INTEGER);").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE profile_stories (dialog_id INTEGER, story_id INTEGER, data BLOB, type INTEGER, seen INTEGER, pin INTEGER, PRIMARY KEY(dialog_id, story_id));").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE story_drafts (id INTEGER PRIMARY KEY, date INTEGER, data BLOB, type INTEGER);").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE story_pushes (uid INTEGER, sid INTEGER, date INTEGER, localName TEXT, flags INTEGER, expire_date INTEGER, PRIMARY KEY(uid, sid));").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE unconfirmed_auth (data BLOB);").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE saved_reaction_tags (topic_id INTEGER PRIMARY KEY, data BLOB);").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE tag_message_id(mid INTEGER, topic_id INTEGER, tag INTEGER, text TEXT);").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS tag_idx_tag_message_id ON tag_message_id(tag);").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS tag_text_idx_tag_message_id ON tag_message_id(tag, text COLLATE NOCASE);").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS tag_topic_idx_tag_message_id ON tag_message_id(topic_id, tag);").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS tag_topic_text_idx_tag_message_id ON tag_message_id(topic_id, tag, text COLLATE NOCASE);").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE business_replies(topic_id INTEGER PRIMARY KEY, name TEXT, order_value INTEGER, count INTEGER);").stepThis().dispose();
+        database.executeFast("CREATE TABLE quick_replies_messages(mid INTEGER, topic_id INTEGER, send_state INTEGER, date INTEGER, data BLOB, ttl INTEGER, replydata BLOB, reply_to_message_id INTEGER, PRIMARY KEY(mid, topic_id))").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS topic_date_idx_quick_replies_messages ON quick_replies_messages(topic_id, date);").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS reply_to_idx_quick_replies_messages ON quick_replies_messages(mid, reply_to_message_id);").stepThis().dispose();
+        database.executeFast("CREATE INDEX IF NOT EXISTS idx_to_reply_quick_replies_messages ON quick_replies_messages(reply_to_message_id, mid);").stepThis().dispose();
+
+        database.executeFast("CREATE TABLE business_links(data BLOB, order_value INTEGER);").stepThis().dispose();
+
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         database.executeFast("PRAGMA user_version = " + MessagesStorage.LAST_DB_VERSION).stepThis().dispose();
 
     }
@@ -1194,6 +1229,67 @@ public class MessagesStorage extends BaseController {
         });
     }
 
+<<<<<<< HEAD
+=======
+    public void putStoryPushMessage(NotificationsController.StoryNotification push) {
+        storageQueue.postRunnable(() -> {
+            try {
+                database.executeFast("DELETE FROM story_pushes WHERE uid = " + push.dialogId).stepThis().dispose();
+                SQLitePreparedStatement state = database.executeFast("REPLACE INTO story_pushes VALUES(?, ?, ?, ?, ?, ?)");
+                for (Map.Entry<Integer, Pair<Long, Long>> e : push.dateByIds.entrySet()) {
+                    int id = e.getKey();
+                    long date = e.getValue().first;
+                    long expire_date = e.getValue().second;
+                    state.requery();
+                    state.bindLong(1, push.dialogId);
+                    state.bindInteger(2, id);
+                    state.bindLong(3, date);
+                    if (push.localName == null) {
+                        push.localName = "";
+                    }
+                    state.bindString(4, push.localName);
+                    state.bindInteger(5, push.hidden ? 1 : 0);
+                    state.bindLong(6, expire_date);
+                    state.step();
+                }
+                state.dispose();
+            } catch (Exception e) {
+                checkSQLException(e);
+            }
+        });
+    }
+
+    public void deleteStoryPushMessage(long dialogId) {
+        storageQueue.postRunnable(() -> {
+            try {
+                database.executeFast("DELETE FROM story_pushes WHERE uid = " + dialogId).stepThis().dispose();
+            } catch (Exception e) {
+                checkSQLException(e);
+            }
+        });
+    }
+
+    public void deleteAllStoryPushMessages() {
+        storageQueue.postRunnable(() -> {
+            try {
+                database.executeFast("DELETE FROM story_pushes").stepThis().dispose();
+            } catch (Exception e) {
+                checkSQLException(e);
+            }
+        });
+    }
+
+    public void deleteAllStoryReactionPushMessages() {
+        storageQueue.postRunnable(() -> {
+            try {
+                database.executeFast("DELETE FROM unread_push_messages WHERE is_reaction = 2").stepThis().dispose();
+            } catch (Exception e) {
+                checkSQLException(e);
+            }
+        });
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public void putPushMessage(MessageObject message) {
         storageQueue.postRunnable(() -> {
             try {
@@ -1231,6 +1327,11 @@ public class MessagesStorage extends BaseController {
                     state.bindString(8, message.localUserName);
                 }
                 state.bindInteger(9, flags);
+<<<<<<< HEAD
+=======
+                state.bindLong(10, MessageObject.getTopicId(currentAccount, message.messageOwner, false));
+                state.bindInteger(11, (message.isReactionPush ? 1 : 0) + (message.isStoryReactionPush ? 1 : 0));
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 state.step();
 
                 data.reuse();
@@ -3474,7 +3575,15 @@ public class MessagesStorage extends BaseController {
                                 }
                             }
 
+<<<<<<< HEAD
                             pushMessages.add(new MessageObject(currentAccount, message, messageText, name, userName, (flags & 1) != 0, (flags & 2) != 0, (message.flags & 0x80000000) != 0, false));
+=======
+                            MessageObject messageObject = new MessageObject(currentAccount, message, messageText, name, userName, (flags & 1) != 0, (flags & 2) != 0, (message.flags & 0x80000000) != 0, false);
+                            final int is_reaction = cursor.intValue(10);
+                            messageObject.isReactionPush = is_reaction == 1;
+                            messageObject.isStoryReactionPush = is_reaction == 2;
+                            pushMessages.add(messageObject);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                             addUsersAndChatsFromMessage(message, usersToLoad, chatsToLoad, null);
                         }
                     }
@@ -4690,7 +4799,7 @@ public class MessagesStorage extends BaseController {
         TLRPC.Message message = new TLRPC.TL_message();
         SQLiteCursor cursor = null;
         try {
-            cursor = database.queryFinalized("SELECT custom_params FROM messages_v2 WHERE mid = " + messageId + " AND uid = " + dialogId);
+            cursor = database.queryFinalized("SELECT custom_params FROM messages_v2 WHERE mid = ? AND uid = ?", messageId, dialogId);
             boolean read = false;
             if (cursor.next()) {
                 MessageCustomParamsHelper.readLocalParams(message, cursor.byteBufferValue(0));
@@ -4699,7 +4808,7 @@ public class MessagesStorage extends BaseController {
             cursor.dispose();
             cursor = null;
             if (!read) {
-                cursor = database.queryFinalized("SELECT custom_params FROM messages_topics WHERE mid = " + messageId + " AND uid = " + dialogId);
+                cursor = database.queryFinalized("SELECT custom_params FROM messages_topics WHERE mid = ? AND uid = ?", messageId, dialogId);
                 if (cursor.next()) {
                     MessageCustomParamsHelper.readLocalParams(message, cursor.byteBufferValue(0));
                     read = true;

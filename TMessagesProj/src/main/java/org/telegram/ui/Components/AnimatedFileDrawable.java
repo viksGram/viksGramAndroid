@@ -132,6 +132,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     private volatile boolean isRunning;
     private volatile boolean isRecycled;
     public volatile long nativePtr;
+    private boolean ptrFail;
     private DispatchQueue decodeQueue;
     private float startTime;
     private float endTime;
@@ -307,18 +308,28 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+<<<<<<< HEAD
+=======
+    private int decoderTryCount = 0;
+    private final int MAX_TRIES = 15;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private Runnable loadFrameRunnable = new Runnable() {
         @Override
         public void run() {
             if (!isRecycled) {
                 if (!decoderCreated && nativePtr == 0) {
                     nativePtr = createDecoder(path.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, false);
+                    ptrFail = nativePtr == 0 && (!isWebmSticker || decoderTryCount > MAX_TRIES);
                     if (nativePtr != 0 && (metaData[0] > 3840 || metaData[1] > 3840)) {
                         destroyDecoder(nativePtr);
                         nativePtr = 0;
                     }
                     updateScaleFactor();
+<<<<<<< HEAD
                     decoderCreated = true;
+=======
+                    decoderCreated = !isWebmSticker || nativePtr != 0 || (decoderTryCount++) > MAX_TRIES;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 }
                 try {
                     if (bitmapsCache != null) {
@@ -440,6 +451,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
         if (createDecoder && !this.precache) {
             nativePtr = createDecoder(file.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, preview);
+            ptrFail = nativePtr == 0 && (!isWebmSticker || decoderTryCount > MAX_TRIES);
             if (nativePtr != 0 && (metaData[0] > 3840 || metaData[1] > 3840)) {
                 destroyDecoder(nativePtr);
                 nativePtr = 0;
@@ -449,6 +461,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
         if (this.precache) {
             nativePtr = createDecoder(file.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, preview);
+            ptrFail = nativePtr == 0 && (!isWebmSticker || decoderTryCount > MAX_TRIES);
             if (nativePtr != 0 && (metaData[0] > 3840 || metaData[1] > 3840)) {
                 destroyDecoder(nativePtr);
                 nativePtr = 0;
@@ -999,7 +1012,15 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
     }
 
     public boolean isRecycled() {
+<<<<<<< HEAD
         return isRecycled;
+=======
+        return isRecycled || decoderTryCount >= MAX_TRIES;
+    }
+
+    public boolean decoderFailed() {
+        return decoderCreated && ptrFail;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     }
 
     public Bitmap getNextFrame() {

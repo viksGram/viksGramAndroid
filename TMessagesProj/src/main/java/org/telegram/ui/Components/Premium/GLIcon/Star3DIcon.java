@@ -78,9 +78,19 @@ public class Star3DIcon {
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         mVertices.put(starObj.positions).position(0);
 
+<<<<<<< HEAD:TMessagesProj/src/main/java/org/telegram/ui/Components/Premium/GLIcon/Star3DIcon.java
         mTextures = ByteBuffer.allocateDirect(starObj.textureCoordinates.length * 4)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();
         mTextures.put(starObj.textureCoordinates).position(0);
+=======
+    private static final String[] starModel = new String[] { "models/star.binobj" };
+    private static final String[] coinModel = new String[] {
+        "models/coin_outer.binobj",
+        "models/coin_inner.binobj",
+        "models/coin_logo.binobj",
+        "models/coin_stars.binobj"
+    };
+>>>>>>> d494ea8cb (update to 10.12.0 (4710)):TMessagesProj/src/main/java/org/telegram/ui/Components/Premium/GLIcon/Icon3D.java
 
         mNormals = ByteBuffer.allocateDirect(starObj.normals.length * 4)
                 .order(ByteOrder.nativeOrder()).asFloatBuffer();

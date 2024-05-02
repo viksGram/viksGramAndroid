@@ -26,16 +26,27 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.ArrayList;
 
 public class HeaderCell extends FrameLayout {
 
+<<<<<<< HEAD
+=======
+    public int id;
+
+    protected int padding;
+    protected int bottomMargin;
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private TextView textView;
+    private AnimatedTextView animatedTextView;
     private SimpleTextView textView2;
     private int height = 40;
     private final Theme.ResourcesProvider resourcesProvider;
+    private boolean animated;
 
     public HeaderCell(Context context) {
         this(context, Theme.key_windowBackgroundWhiteBlueHeader, 21, 15, false, null);
@@ -62,8 +73,13 @@ public class HeaderCell extends FrameLayout {
     }
 
     public HeaderCell(Context context, int textColorKey, int padding, int topMargin, int bottomMargin, boolean text2, Theme.ResourcesProvider resourcesProvider) {
+        this(context, textColorKey, padding, topMargin, bottomMargin, text2, false, resourcesProvider);
+    }
+
+    public HeaderCell(Context context, int textColorKey, int padding, int topMargin, int bottomMargin, boolean text2, boolean animated, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
+<<<<<<< HEAD
 
         textView = new TextView(getContext());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
@@ -74,6 +90,32 @@ public class HeaderCell extends FrameLayout {
         textView.setTextColor(getThemedColor(textColorKey));
         textView.setTag(textColorKey);
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, topMargin, padding, text2 ? 0 : bottomMargin));
+=======
+        this.padding = padding;
+        this.bottomMargin = bottomMargin;
+        this.animated = animated;
+
+        if (animated) {
+            animatedTextView = new AnimatedTextView(getContext());
+            animatedTextView.setTextSize(AndroidUtilities.dp(15));
+            animatedTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            animatedTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+            animatedTextView.setTextColor(getThemedColor(textColorKey));
+            animatedTextView.setTag(textColorKey);
+            animatedTextView.getDrawable().setHacks(true, true, false);
+            addView(animatedTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, height - topMargin, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, topMargin, padding, text2 ? 0 : bottomMargin));
+        } else {
+            textView = new TextView(getContext());
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+            textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+            textView.setMinHeight(AndroidUtilities.dp(height - topMargin));
+            textView.setTextColor(getThemedColor(textColorKey));
+            textView.setTag(textColorKey);
+            addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, padding, topMargin, padding, text2 ? 0 : bottomMargin));
+        }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 
         if (text2) {
             textView2 = new SimpleTextView(getContext());
@@ -115,7 +157,11 @@ public class HeaderCell extends FrameLayout {
     }
 
     public void setTextSize(float dip) {
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dip);
+        if (animated) {
+            animatedTextView.setTextSize(AndroidUtilities.dp(dip));
+        } else {
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, dip);
+        }
     }
 
     public void setTextColor(int color) {
@@ -123,8 +169,17 @@ public class HeaderCell extends FrameLayout {
     }
 
     public void setText(CharSequence text) {
-        textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-        textView.setText(text);
+        setText(text, false);
+    }
+
+    public void setText(CharSequence text, boolean animate) {
+        if (this.animated) {
+            animatedTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+            animatedTextView.setText(text, animate);
+        } else {
+            textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+            textView.setText(text);
+        }
     }
 
     public void setText2(CharSequence text) {

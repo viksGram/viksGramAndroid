@@ -138,8 +138,30 @@ public class EntityView extends FrameLayout {
         float minDistance = hasPanned ? 6 : 16;
         if (distance > minDistance) {
             pan(tx, ty);
+<<<<<<< HEAD
             previousLocationX = x;
             previousLocationY = y;
+=======
+
+            if (multitouch) {
+                float d = MathUtils.distance(x1, y1, x2, y2);
+                float pd = MathUtils.distance(previousLocationX, previousLocationY, previousLocationX2, previousLocationY2);
+                if (pd > 0) {
+                    scale(d / pd);
+                }
+                double angleDiff = Math.atan2(y1 - y2, x1 - x2) - Math.atan2(previousLocationY - previousLocationY2, previousLocationX - previousLocationX2);
+                rotate(this.angle + (float) Math.toDegrees(angleDiff));
+            }
+
+            previousLocationX = x1;
+            previousLocationY = y1;
+            previousLocationCX = x;
+            previousLocationCY = y;
+            if (multitouch) {
+                previousLocationX2 = x2;
+                previousLocationY2 = y2;
+            }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             hasPanned = true;
 
             if (getParent() instanceof EntitiesContainerView && (hasStickyX || hasStickyY)) {
@@ -631,7 +653,7 @@ public class EntityView extends FrameLayout {
                                 angle = (float) Math.atan2(rawY - pos[1], rawX - pos[0]);
                             }
 
-                            rotate((float) Math.toDegrees(angle) - delegate.getCropRotation());
+                            rotate((float) Math.toDegrees(angle));
 
                             previousLocationX = x;
                             previousLocationY = y;

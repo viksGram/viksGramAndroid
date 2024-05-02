@@ -1,11 +1,15 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.graphics.CornerPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.os.SystemClock;
 import android.text.Layout;
@@ -24,6 +28,7 @@ import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -623,7 +628,74 @@ public class LinkSpanDrawable<S extends CharacterStyle> {
                 canvas.restore();
             }
             super.onDraw(canvas);
+<<<<<<< HEAD
         }
+=======
+            boolean restore = false;
+            try {
+                Layout layout = getLayout();
+                float offset = (getGravity() & Gravity.CENTER_VERTICAL) != 0 && layout != null ? getPaddingTop() + (getHeight() - getPaddingTop() - getPaddingBottom() - layout.getHeight()) / 2f : 0;
+                if (offset != 0 || getPaddingLeft() != 0) {
+                    canvas.save();
+                    restore = true;
+                    canvas.translate(getPaddingLeft(), offset);
+                }
+                stack = AnimatedEmojiSpan.update(emojiCacheType(), this, stack, getLayout());
+                if (emojiColorFilter == null) {
+                    emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
+                }
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, layout, stack, 0, null, 0, 0, 0, 1f, emojiColorFilter);
+            } catch (Exception e) {
+                if (!loggedError) FileLog.e(e, true);
+                loggedError = true;
+            }
+            if (restore) {
+                canvas.restore();
+            }
+        }
+
+        protected int emojiCacheType() {
+            return AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES;
+        }
+
+        private ColorFilter emojiColorFilter;
+
+        @Override
+        public void setText(CharSequence text, TextView.BufferType type) {
+            super.setText(text, type);
+            stack = AnimatedEmojiSpan.update(emojiCacheType(), this, stack, getLayout());
+        }
+
+        @Override
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            stack = AnimatedEmojiSpan.update(emojiCacheType(), this, stack, getLayout());
+        }
+
+        @Override
+        protected void onAttachedToWindow() {
+            super.onAttachedToWindow();
+            stack = AnimatedEmojiSpan.update(emojiCacheType(), this, stack, getLayout());
+        }
+
+        @Override
+        protected void onDetachedFromWindow() {
+            super.onDetachedFromWindow();
+            AnimatedEmojiSpan.release(this, stack);
+        }
+
+        @Override
+        public void setTextColor(int color) {
+            super.setTextColor(color);
+            emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
+        }
+
+        @Override
+        public void setTextColor(ColorStateList colors) {
+            super.setTextColor(colors);
+            emojiColorFilter = new PorterDuffColorFilter(getPaint().linkColor, PorterDuff.Mode.SRC_IN);
+        }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     }
 
     public static class ClickableSmallTextView extends SimpleTextView {

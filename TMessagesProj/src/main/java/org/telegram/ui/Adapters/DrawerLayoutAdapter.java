@@ -308,7 +308,13 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             peopleNearbyIcon = R.drawable.msg_nearby;
         }
         UserConfig me = UserConfig.getInstance(UserConfig.selectedAccount);
+<<<<<<< HEAD
         if (me != null && me.isPremium() && ExteraConfig.changeStatus) {
+=======
+        boolean showDivider = false;
+        items.add(new Item(16, LocaleController.getString(R.string.MyProfile), R.drawable.left_status_profile));
+        if (me != null && me.isPremium()) {
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             if (me.getEmojiStatus() != null) {
                 items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), R.drawable.msg_status_edit));
             } else {
@@ -316,6 +322,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             }
             items.add(null);
         }
+<<<<<<< HEAD
         if (ExteraConfig.archivedChats && ChatUtils.hasArchivedChats()) {
             items.add(new Item(14, LocaleController.getString("ArchivedChats", R.string.ArchivedChats), archiveIcon));
             items.add(null);
@@ -327,6 +334,40 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         if (ExteraConfig.calls) items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), callsIcon));
         if (ExteraConfig.peopleNearby && hasGps) items.add(new Item(12, LocaleController.getString("PeopleNearby", R.string.PeopleNearby), peopleNearbyIcon));
         if (ExteraConfig.savedMessages) items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), savedIcon));
+=======
+//        if (MessagesController.getInstance(UserConfig.selectedAccount).storiesEnabled()) {
+//            items.add(new Item(17, LocaleController.getString(R.string.ProfileStories), R.drawable.msg_menu_stories));
+//            showDivider = true;
+//        }
+        showDivider = true;
+        if (ApplicationLoader.applicationLoaderInstance != null) {
+            if (ApplicationLoader.applicationLoaderInstance.extendDrawer(items)) {
+                showDivider = true;
+            }
+        }
+        TLRPC.TL_attachMenuBots menuBots = MediaDataController.getInstance(UserConfig.selectedAccount).getAttachMenuBots();
+        if (menuBots != null && menuBots.bots != null) {
+            for (int i = 0; i < menuBots.bots.size(); i++) {
+                TLRPC.TL_attachMenuBot bot = menuBots.bots.get(i);
+                if (bot.show_in_side_menu) {
+                    items.add(new Item(bot));
+                    showDivider = true;
+                }
+            }
+        }
+        if (showDivider) {
+            items.add(null); // divider
+        }
+        items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), newGroupIcon));
+        //items.add(new Item(3, LocaleController.getString("NewSecretChat", R.string.NewSecretChat), newSecretIcon));
+        //items.add(new Item(4, LocaleController.getString("NewChannel", R.string.NewChannel), newChannelIcon));
+        items.add(new Item(6, LocaleController.getString("Contacts", R.string.Contacts), contactsIcon));
+        items.add(new Item(10, LocaleController.getString("Calls", R.string.Calls), callsIcon));
+        if (hasGps) {
+            items.add(new Item(12, LocaleController.getString("PeopleNearby", R.string.PeopleNearby), peopleNearbyIcon));
+        }
+        items.add(new Item(11, LocaleController.getString("SavedMessages", R.string.SavedMessages), savedIcon));
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         items.add(new Item(8, LocaleController.getString("Settings", R.string.Settings), settingsIcon));
         if (ExteraConfig.scanQr) {
             items.add(null);

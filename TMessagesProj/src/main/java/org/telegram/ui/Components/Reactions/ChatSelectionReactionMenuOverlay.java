@@ -224,7 +224,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                             reactionsContainerLayout.setVisibility(VISIBLE);
                             if (!messageSet) {
                                 messageSet = true;
-                                reactionsContainerLayout.setMessage(currentPrimaryObject, parentFragment.getCurrentChatInfo());
+                                reactionsContainerLayout.setMessage(currentPrimaryObject, parentFragment.getCurrentChatInfo(), true);
                             }
                         }
                     }
@@ -340,6 +340,7 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
             checkCreateReactionsLayout();
             invalidatePosition(false);
 
+<<<<<<< HEAD
             setVisibility(VISIBLE);
             if (reactionsContainerLayout.isEnabled()) {
                 messageSet = true;
@@ -349,6 +350,17 @@ public class ChatSelectionReactionMenuOverlay extends FrameLayout {
                 messageSet = false;
                 reactionsContainerLayout.setTransitionProgress(1f);
             }
+=======
+                if (reactionsContainerLayout.isEnabled()) {
+                    messageSet = true;
+                    reactionsContainerLayout.setMessage(currentPrimaryObject, parentFragment.getCurrentChatInfo(), true);
+                    reactionsContainerLayout.startEnterAnimation(false);
+                } else {
+                    messageSet = false;
+                    reactionsContainerLayout.setTransitionProgress(1f);
+                }
+            });
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         } else {
             messageSet = false;
             ValueAnimator animator = ValueAnimator.ofFloat(1, 0).setDuration(150);

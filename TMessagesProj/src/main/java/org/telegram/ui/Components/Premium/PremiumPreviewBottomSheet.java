@@ -438,10 +438,8 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                         titleView = new LinkSpanDrawable.LinksTextView[2];
                         for (int a = 0; a < 2; ++a) {
                             titleView[a] = new LinkSpanDrawable.LinksTextView(context, resourcesProvider) {
-                                private Layout lastLayout;
-                                AnimatedEmojiSpan.EmojiGroupedSpans stack;
-
                                 @Override
+<<<<<<< HEAD
                                 protected void onDetachedFromWindow() {
                                     super.onDetachedFromWindow();
                                     AnimatedEmojiSpan.release(this, stack);
@@ -460,11 +458,15 @@ public class PremiumPreviewBottomSheet extends BottomSheetWithRecyclerListView i
                                 @Override
                                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                                     super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(99999999, MeasureSpec.AT_MOST));
+=======
+                                protected int emojiCacheType() {
+                                    return AnimatedEmojiDrawable.CACHE_TYPE_ALERT_PREVIEW;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                                 }
                             };
                             titleView[a].setVisibility(a == 0 ? View.VISIBLE : View.GONE);
                             titleView[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                            titleView[a].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                            titleView[a].setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                             titleView[a].setGravity(Gravity.CENTER_HORIZONTAL);
                             titleView[a].setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                             titleView[a].setLinkTextColor(getThemedColor(Theme.key_windowBackgroundWhiteLinkText));

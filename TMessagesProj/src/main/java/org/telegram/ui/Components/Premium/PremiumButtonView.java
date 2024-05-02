@@ -69,7 +69,38 @@ public class PremiumButtonView extends FrameLayout {
         flickerDrawable.repeatProgress = 4f;
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
+<<<<<<< HEAD
         buttonTextView = new AnimatedTextView(context);
+=======
+        buttonTextView = new AnimatedTextView(context, true, true, true) {
+            @Override
+            protected void onDraw(Canvas canvas) {
+                if (loadingT > 0) {
+                    if (loadingDrawable == null) {
+                        loadingDrawable = new CircularProgressDrawable(buttonTextView.getTextColor());
+                    }
+                    int y = (int) ((1f - loadingT) * dp(24));
+                    loadingDrawable.setBounds(0, y, getWidth(), y + getHeight());
+                    loadingDrawable.setAlpha((int) (0xFF * loadingT));
+                    loadingDrawable.draw(canvas);
+                    invalidate();
+                }
+
+                if (loadingT < 1) {
+                    if (loadingT != 0) {
+                        canvas.save();
+                        canvas.translate(0, (int) (loadingT * dp(-24)));
+                        canvas.scale(1, 1f - .4f * loadingT);
+                        super.onDraw(canvas);
+                        canvas.restore();
+                        return;
+                    }
+                    super.onDraw(canvas);
+                }
+            }
+        };
+        buttonTextView.setAnimationProperties(.35f, 0, 350, CubicBezierInterpolator.EASE_OUT_QUINT);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         buttonTextView.setGravity(Gravity.CENTER);
         buttonTextView.setTextColor(Color.WHITE);
         buttonTextView.setTextSize(AndroidUtilities.dp(14));

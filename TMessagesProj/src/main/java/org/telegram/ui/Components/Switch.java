@@ -487,7 +487,11 @@ public class Switch extends View {
             }
 
             color1 = Theme.getColor(thumbColorKey, resourcesProvider);
+<<<<<<< HEAD
             color2 = Theme.getColor(thumbCheckedColorKey, resourcesProvider);
+=======
+            color2 = processColor(Theme.getColor(thumbCheckedColorKey, resourcesProvider));
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             r1 = Color.red(color1);
             r2 = Color.red(color2);
             g1 = Color.green(color1);

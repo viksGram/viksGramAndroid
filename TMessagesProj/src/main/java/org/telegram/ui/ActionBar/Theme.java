@@ -3970,8 +3970,10 @@ public class Theme {
     public static final int key_premiumGradientBackground4 = colorsCount++;
     public static final int key_premiumGradientBackgroundOverlay = colorsCount++;
     public static final int key_premiumStartSmallStarsColor = colorsCount++;
-    public static final int key_premiumStartGradient1 = colorsCount++;
-    public static final int key_premiumStartGradient2 = colorsCount++;
+    public static final int key_premiumStarGradient1 = colorsCount++;
+    public static final int key_premiumStarGradient2 = colorsCount++;
+    public static final int key_premiumCoinGradient1 = colorsCount++;
+    public static final int key_premiumCoinGradient2 = colorsCount++;
     public static final int key_premiumStartSmallStarsColor2 = colorsCount++;
     public static final int key_premiumGradientBottomSheet1 = colorsCount++;
     public static final int key_premiumGradientBottomSheet2 = colorsCount++;
@@ -4319,8 +4321,20 @@ public class Theme {
         themeAccentExclusionKeys.add(key_premiumGradientBackground3);
         themeAccentExclusionKeys.add(key_premiumGradientBackground4);
         themeAccentExclusionKeys.add(key_premiumStartSmallStarsColor);
+<<<<<<< HEAD
         themeAccentExclusionKeys.add(key_premiumStartGradient1);
         themeAccentExclusionKeys.add(key_premiumStartGradient2);
+=======
+        themeAccentExclusionKeys.add(key_premiumStarGradient1);
+        themeAccentExclusionKeys.add(key_premiumStarGradient2);
+        themeAccentExclusionKeys.add(key_stories_circle1);
+        themeAccentExclusionKeys.add(key_stories_circle2);
+        themeAccentExclusionKeys.add(key_stories_circle_dialog1);
+        themeAccentExclusionKeys.add(key_stories_circle_dialog2);
+        themeAccentExclusionKeys.add(key_stories_circle_closeFriends1);
+        themeAccentExclusionKeys.add(key_stories_circle_closeFriends2);
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
 
         themes = new ArrayList<>();
         otherThemes = new ArrayList<>();
@@ -8190,7 +8204,11 @@ public class Theme {
             chat_radialProgress2Paint.setStyle(Paint.Style.STROKE);
             chat_audioTimePaint = new TextPaint(TextPaint.ANTI_ALIAS_FLAG);
             chat_livePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+<<<<<<< HEAD
             chat_livePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+=======
+            chat_livePaint.setTypeface(Typeface.DEFAULT_BOLD);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             chat_audioTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_audioTitlePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             chat_audioPerformerPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -8520,6 +8538,7 @@ public class Theme {
             chat_contactPhonePaint.setTextSize(AndroidUtilities.dp(13));
             chat_durationPaint.setTextSize(AndroidUtilities.dp(12));
             float smallerDp = (2 * SharedConfig.fontSize + 10) / 3f; // 6f + SharedConfig.fontSize / 2f;
+<<<<<<< HEAD
             chat_namePaint.setTextSize(AndroidUtilities.dp(smallerDp));
             chat_replyNamePaint.setTextSize(AndroidUtilities.dp(smallerDp));
             chat_replyTextPaint.setTextSize(AndroidUtilities.dp(smallerDp));
@@ -8541,6 +8560,30 @@ public class Theme {
             chat_radialProgress2Paint.setStrokeWidth(AndroidUtilities.dp(2));
             chat_commentTextPaint.setTextSize(AndroidUtilities.dp(14));
             chat_commentTextPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+=======
+            chat_namePaint.setTextSize(dp(smallerDp));
+            chat_replyNamePaint.setTextSize(dp(smallerDp));
+            chat_replyTextPaint.setTextSize(dp(smallerDp));
+            chat_topicTextPaint.setTextSize(dp(smallerDp - 1));
+            chat_forwardNamePaint.setTextSize(dp(smallerDp));
+            chat_adminPaint.setTextSize(dp(smallerDp - 1));
+            float timeDp = 2 * (SharedConfig.fontSize - 16) / 3f + 12;
+            chat_timePaint.setTextSize(dp(12));
+            chat_gamePaint.setTextSize(dp(13));
+            chat_shipmentPaint.setTextSize(dp(13));
+            chat_instantViewPaint.setTextSize(dp(13));
+            chat_instantViewRectPaint.setStrokeWidth(dp(1));
+            chat_pollTimerPaint.setStrokeWidth(dp(1.1f));
+            chat_actionTextPaint.setTextSize(dp(Math.max(16, SharedConfig.fontSize) - 2));
+            chat_actionTextPaint2.setTextSize(dp(Math.max(16, SharedConfig.fontSize) - 2));
+            chat_unlockExtendedMediaTextPaint.setTextSize(dp(Math.max(16, SharedConfig.fontSize)));
+            chat_contextResult_titleTextPaint.setTextSize(dp(15));
+            chat_contextResult_descriptionTextPaint.setTextSize(dp(13));
+            chat_radialProgressPaint.setStrokeWidth(dp(3));
+            chat_radialProgress2Paint.setStrokeWidth(dp(2.33f));
+            chat_commentTextPaint.setTextSize(dp(14));
+            chat_commentTextPaint.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         }
     }
 

@@ -42,6 +42,7 @@ public class MediaCodecVideoConvertor {
     private static final int MEDIACODEC_TIMEOUT_DEFAULT = 2500;
     private static final int MEDIACODEC_TIMEOUT_INCREASED = 22000;
 
+<<<<<<< HEAD
     public boolean convertVideo(String videoPath, File cacheFile,
                                 int rotationValue, boolean isSecret,
                                 int originalWidth, int originalHeight,
@@ -59,6 +60,14 @@ public class MediaCodecVideoConvertor {
         this.callback = callback;
         return convertVideoInternal(videoPath, cacheFile, rotationValue, isSecret, originalWidth, originalHeight,
                 resultWidth, resultHeight, framerate, bitrate, originalBitrate, startTime, endTime, avatarStartTime, duration, needCompress, false, savedFilterState, paintPath, mediaEntities, isPhoto, cropState, isRound);
+=======
+    public boolean convertVideo(ConvertVideoParams convertVideoParams) {
+        if (convertVideoParams.isSticker) {
+            return WebmEncoder.convert(convertVideoParams, 0);
+        }
+        this.callback = convertVideoParams.callback;
+        return convertVideoInternal(convertVideoParams, false, 0);
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     }
 
     public long getLastFrameTimestamp() {

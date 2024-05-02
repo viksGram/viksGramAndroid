@@ -149,6 +149,15 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
             } else if (currentType == NotificationsController.TYPE_CHANNEL) {
                 prefPath = "ChannelSoundPath";
                 prefDocId = "ChannelSoundDocId";
+<<<<<<< HEAD
+=======
+            } else if (currentType == NotificationsController.TYPE_STORIES) {
+                prefPath = "StoriesSoundPath";
+                prefDocId = "StoriesSoundDocId";
+            } else if (currentType == NotificationsController.TYPE_REACTIONS_MESSAGES || currentType == NotificationsController.TYPE_REACTIONS_STORIES) {
+                prefPath = "ReactionSoundPath";
+                prefDocId = "ReactionSoundDocId";
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             } else {
                 throw new RuntimeException("Unsupported type");
             }
@@ -290,6 +299,13 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                 actionBar.setTitle(LocaleController.getString("NotificationsSoundGroup", R.string.NotificationsSoundGroup));
             } else if (currentType == NotificationsController.TYPE_CHANNEL) {
                 actionBar.setTitle(LocaleController.getString("NotificationsSoundChannels", R.string.NotificationsSoundChannels));
+<<<<<<< HEAD
+=======
+            } else if (currentType == NotificationsController.TYPE_STORIES) {
+                actionBar.setTitle(LocaleController.getString(R.string.NotificationsSoundStories));
+            } else if (currentType == NotificationsController.TYPE_REACTIONS_STORIES || currentType == NotificationsController.TYPE_REACTIONS_MESSAGES) {
+                actionBar.setTitle(LocaleController.getString(R.string.NotificationsSoundReactions));
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
             }
         } else {
             avatarContainer = new ChatAvatarContainer(context, null, false, resourcesProvider);
@@ -881,6 +897,17 @@ public class NotificationsSoundActivity extends BaseFragment implements ChatAtta
                     prefName = "ChannelSound";
                     prefPath = "ChannelSoundPath";
                     prefDocId = "ChannelSoundDocId";
+<<<<<<< HEAD
+=======
+                } else if (currentType == NotificationsController.TYPE_STORIES) {
+                    prefName = "StoriesSound";
+                    prefPath = "StoriesSoundPath";
+                    prefDocId = "StoriesSoundDocId";
+                } else if (currentType == NotificationsController.TYPE_REACTIONS_STORIES || currentType == NotificationsController.TYPE_REACTIONS_MESSAGES) {
+                    prefName = "ReactionSound";
+                    prefPath = "ReactionSoundPath";
+                    prefDocId = "ReactionSoundDocId";
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
                 } else {
                     throw new RuntimeException("Unsupported type");
                 }

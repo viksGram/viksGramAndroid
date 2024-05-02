@@ -1,6 +1,8 @@
 package org.telegram.messenger;
 
 import static org.telegram.messenger.NotificationsController.TYPE_PRIVATE;
+import static org.telegram.messenger.NotificationsController.TYPE_REACTIONS_MESSAGES;
+import static org.telegram.messenger.NotificationsController.TYPE_REACTIONS_STORIES;
 
 import android.content.SharedPreferences;
 
@@ -197,6 +199,10 @@ public class NotificationsSettingsFacade {
                 soundPref = "GlobalSound";
                 soundDocPref = "GlobalSoundDocId";
                 soundPathPref = "GlobalSoundPath";
+            } else if (globalType == TYPE_REACTIONS_MESSAGES || globalType == TYPE_REACTIONS_STORIES) {
+                soundPref = "ReactionSound";
+                soundDocPref = "ReactionSoundDocId";
+                soundPathPref = "ReactionSoundPath";
             } else {
                 soundPref = "ChannelSound";
                 soundDocPref = "ChannelSoundDocId";

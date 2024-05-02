@@ -38,6 +38,7 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PremiumPreviewFragment;
@@ -67,9 +68,25 @@ public final class BulletinFactory {
         if (baseFragment == null) {
             return null;
         }
+        if (baseFragment.visibleDialog instanceof BottomSheet) {
+            return BulletinFactory.of(((BottomSheet) baseFragment.visibleDialog).container, baseFragment.getResourceProvider());
+        }
         return BulletinFactory.of(baseFragment);
     }
 
+<<<<<<< HEAD
+=======
+    public void showForError(TLRPC.TL_error error) {
+        if (!LaunchActivity.isActive) return;
+        createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, error.text)).show();
+    }
+
+    public static void showError(TLRPC.TL_error error) {
+        if (!LaunchActivity.isActive) return;
+        global().createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, error.text)).show();
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public enum FileType {
 
         PHOTO("PhotoSavedHint", R.string.PhotoSavedHint, Icon.SAVED_TO_GALLERY),
@@ -180,9 +197,9 @@ public final class BulletinFactory {
             }
             text = ssb;
         }
-        layout.textView.setText(text);
         layout.textView.setSingleLine(false);
         layout.textView.setMaxLines(maxLines);
+        layout.textView.setText(text);
         return create(layout, text.length() < 20 ? Bulletin.DURATION_SHORT : Bulletin.DURATION_LONG);
     }
 
@@ -273,10 +290,38 @@ public final class BulletinFactory {
     }
 
     public Bulletin createUndoBulletin(CharSequence text, Runnable onUndo, Runnable onAction) {
+<<<<<<< HEAD
         final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         layout.textView.setText(text);
         layout.textView.setSingleLine(false);
         layout.textView.setMaxLines(2);
+=======
+        return this.createUndoBulletin(text, false, onUndo, onAction);
+    }
+
+    public Bulletin createUndoBulletin(CharSequence text, boolean textAndIcon, Runnable onUndo, Runnable onAction) {
+        return this.createUndoBulletin(text, null, textAndIcon, onUndo, onAction);
+    }
+
+    public Bulletin createUndoBulletin(CharSequence text, CharSequence subtitle, Runnable onUndo, Runnable onAction) {
+        return this.createUndoBulletin(text, subtitle, true, onUndo, onAction);
+    }
+
+    public Bulletin createUndoBulletin(CharSequence text, CharSequence subtitle, boolean textAndIcon, Runnable onUndo, Runnable onAction) {
+        final Bulletin.ButtonLayout layout;
+        if (!TextUtils.isEmpty(subtitle)) {
+            final Bulletin.TwoLineLottieLayout twoLineLayout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
+            twoLineLayout.titleTextView.setText(text);
+            twoLineLayout.subtitleTextView.setText(subtitle);
+            layout = twoLineLayout;
+        } else {
+            final Bulletin.LottieLayout singleLineLayout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
+            singleLineLayout.textView.setText(text);
+            singleLineLayout.textView.setSingleLine(false);
+            singleLineLayout.textView.setMaxLines(2);
+            layout = singleLineLayout;
+        }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
         layout.setTimer();
         layout.setButton(new Bulletin.UndoButton(getContext(), true, resourcesProvider).setText(LocaleController.getString("Undo", R.string.Undo)).setUndoAction(onUndo).setDelayedAction(onAction));
         return create(layout, Bulletin.DURATION_PROLONG);

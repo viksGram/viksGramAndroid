@@ -92,6 +92,114 @@ public class ChatGreetingsView extends LinearLayout {
         });
     }
 
+<<<<<<< HEAD
+=======
+    public void setSticker(String stickerPath) {
+        if (stickerPath == null) {
+            return;
+        }
+        wasDraw = true;
+        nextStickerToSendView.clearImage();
+        stickerToSendView.setImage(ImageLocation.getForPath(stickerPath), "256_256", null, null, 0, null);
+    }
+
+    public void setNextSticker(TLRPC.Document sticker, Runnable whenDone) {
+        if (sticker == null) {
+            return;
+        }
+        if (togglingStickersAnimator != null) {
+            togglingStickersAnimator.cancel();
+        }
+        nextStickerToSendView.getImageReceiver().setDelegate(new ImageReceiver.ImageReceiverDelegate() {
+            private boolean waited;
+            @Override
+            public void didSetImageBitmap(int type, String key, Drawable drawable) {
+                if (waited) {
+                    return;
+                }
+                if ((type == ImageReceiver.TYPE_IMAGE || type == ImageReceiver.TYPE_MEDIA) && drawable != null) {
+                    waited = true;
+                    if (drawable instanceof RLottieDrawable && ((RLottieDrawable) drawable).bitmapsCache != null && ((RLottieDrawable) drawable).bitmapsCache.needGenCache()) {
+                        ((RLottieDrawable) drawable).whenCacheDone = () -> {
+                            toggleToNextSticker();
+                            if (whenDone != null) {
+                                whenDone.run();
+                            }
+                        };
+                    } else {
+                        toggleToNextSticker();
+                        if (whenDone != null) {
+                            whenDone.run();
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void didSetImage(ImageReceiver imageReceiver, boolean set, boolean thumb, boolean memCache) {}
+        });
+        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(sticker, Theme.key_chat_serviceBackground, 1.0f);
+        if (svgThumb != null) {
+            nextStickerToSendView.setImage(ImageLocation.getForDocument(sticker), createFilter(sticker), svgThumb, 0, sticker);
+        } else {
+            TLRPC.PhotoSize thumb = FileLoader.getClosestPhotoSizeWithSize(sticker.thumbs, 90);
+            nextStickerToSendView.setImage(ImageLocation.getForDocument(sticker), createFilter(sticker), ImageLocation.getForDocument(thumb, sticker), null, 0, sticker);
+        }
+        nextStickerToSendView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onGreetings(sticker);
+            }
+        });
+    }
+
+    private AnimatorSet togglingStickersAnimator;
+    private void toggleToNextSticker() {
+        if (togglingStickersAnimator != null) {
+            togglingStickersAnimator.cancel();
+        }
+
+        nextStickerToSendView.setVisibility(View.VISIBLE);
+        stickerToSendView.setVisibility(View.VISIBLE);
+
+        togglingStickersAnimator = new AnimatorSet();
+        togglingStickersAnimator.setDuration(420);
+        togglingStickersAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+        togglingStickersAnimator.addListener(new AnimatorListenerAdapter() {
+            private boolean cancelled;
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (cancelled) return;
+
+                BackupImageView temp = stickerToSendView;
+                stickerToSendView = nextStickerToSendView;
+                nextStickerToSendView = temp;
+
+                nextStickerToSendView.setVisibility(View.GONE);
+                nextStickerToSendView.setAlpha(0f);
+                stickerToSendView.setVisibility(View.VISIBLE);
+                stickerToSendView.setAlpha(1f);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+                cancelled = true;
+            }
+        });
+        togglingStickersAnimator.playTogether(
+            ObjectAnimator.ofFloat(nextStickerToSendView, View.ALPHA, 0f, 1f),
+            ObjectAnimator.ofFloat(nextStickerToSendView, View.SCALE_X, .7f, 1f),
+            ObjectAnimator.ofFloat(nextStickerToSendView, View.SCALE_Y, .7f, 1f),
+            ObjectAnimator.ofFloat(nextStickerToSendView, View.TRANSLATION_Y, -dp(24), 0),
+
+            ObjectAnimator.ofFloat(stickerToSendView, View.ALPHA, 1f, 0f),
+            ObjectAnimator.ofFloat(stickerToSendView, View.SCALE_X, 1f, .7f),
+            ObjectAnimator.ofFloat(stickerToSendView, View.SCALE_Y, 1f, .7f),
+            ObjectAnimator.ofFloat(stickerToSendView, View.TRANSLATION_Y, 0, dp(24))
+        );
+        togglingStickersAnimator.start();
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public static String createFilter(TLRPC.Document document) {
         float maxHeight;
         float maxWidth;

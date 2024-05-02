@@ -1129,6 +1129,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     updateLayout();
                     previousScrollOffsetY = scrollOffsetY;
                 }
+                if (Bulletin.getVisibleBulletin() != null && Bulletin.getVisibleBulletin().getLayout() != null && Bulletin.getVisibleBulletin().getLayout().getParent() instanceof View && ((View) Bulletin.getVisibleBulletin().getLayout().getParent()).getParent() == bulletinContainer2) {
+                    Bulletin.hideVisible();
+                }
             }
         });
 

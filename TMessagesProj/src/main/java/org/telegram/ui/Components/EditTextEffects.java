@@ -297,12 +297,49 @@ public class EditTextEffects extends EditText {
     public void updateAnimatedEmoji(boolean force) {
         int newTextLength = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
         if (force || lastLayout != getLayout() || lastTextLength != newTextLength) {
-            animatedEmojiDrawables = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.getCacheTypeForEnterView(), this, animatedEmojiDrawables, getLayout());
+            animatedEmojiDrawables = AnimatedEmojiSpan.update(emojiCacheType(), this, animatedEmojiDrawables, getLayout());
             lastLayout = getLayout();
             lastTextLength = newTextLength;
         }
     }
 
+<<<<<<< HEAD
+=======
+    protected int emojiCacheType() {
+        return AnimatedEmojiDrawable.getCacheTypeForEnterView();
+    }
+
+    private int lastText2Length;
+    private int quoteUpdatesTries;
+    private boolean[] quoteUpdateLayout;
+
+    public void invalidateQuotes(boolean force) {
+        int newTextLength = (getLayout() == null || getLayout().getText() == null) ? 0 : getLayout().getText().length();
+        if (force || lastText2Length != newTextLength) {
+            quoteUpdatesTries = 2;
+            lastText2Length = newTextLength;
+        }
+        if (quoteUpdatesTries > 0) {
+            if (quoteUpdateLayout == null) {
+                quoteUpdateLayout = new boolean[1];
+            }
+            quoteUpdateLayout[0] = false;
+            quoteBlocks = QuoteSpan.updateQuoteBlocks(getLayout(), quoteBlocks, quoteUpdateLayout);
+            if (quoteUpdateLayout[0]) {
+                resetFontMetricsCache();
+            }
+            quoteUpdatesTries--;
+        }
+    }
+
+    // really dirty workaround to reset fontmetrics cache (lineheightspan.chooseheight works only when text is inserted into the respected line)
+    protected void resetFontMetricsCache() {
+        float originalTextSize = getTextSize();
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, originalTextSize + 1);
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, originalTextSize);
+    }
+
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     public void invalidateEffects() {
         Editable text = getText();
         if (text != null) {

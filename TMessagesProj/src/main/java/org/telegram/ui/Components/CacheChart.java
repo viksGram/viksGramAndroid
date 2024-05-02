@@ -45,7 +45,11 @@ public class CacheChart extends View {
     private RectF chartBounds = new RectF();
     private RectF chartInnerBounds = new RectF();
 
+<<<<<<< HEAD
     private static final int DEFAULT_SECTIONS_COUNT = 9;
+=======
+    private static final int DEFAULT_SECTIONS_COUNT = 11;
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     private static final int[] DEFAULT_COLORS = new int[] {
         Theme.key_statisticChartLine_lightblue,
         Theme.key_statisticChartLine_blue,
@@ -55,6 +59,7 @@ public class CacheChart extends View {
         Theme.key_statisticChartLine_orange,
         Theme.key_statisticChartLine_cyan,
         Theme.key_statisticChartLine_purple,
+        Theme.key_statisticChartLine_golden,
         Theme.key_statisticChartLine_golden
     };
 
@@ -67,7 +72,8 @@ public class CacheChart extends View {
         R.raw.cache_stickers,
         R.raw.cache_profile_photos,
         R.raw.cache_other,
-        R.raw.cache_other
+        R.raw.cache_other,
+        R.raw.cache_documents
     };
 
     private final int sectionsCount;

@@ -626,5 +626,80 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         super.onDetachedFromWindow();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         emojiStatus.detach();
+<<<<<<< HEAD
+=======
+        storyParams.onDetachFromWindow();
+    }
+
+    public long getDialogId() {
+        return dialogId;
+    }
+
+    public void setFromUItem(int currentAccount, UItem item, boolean divider) {
+        if (item.chatType != null) {
+            setData(item.chatType, item.text, null, 0, divider);
+            return;
+        }
+        long id = item.dialogId;
+        if (id > 0) {
+            TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(id);
+            if (user != null) {
+                String status;
+                if (user.bot) {
+                    status = LocaleController.getString("Bot", R.string.Bot);
+                } else if (user.contact) {
+                    status = LocaleController.getString("FilterContact", R.string.FilterContact);
+                } else {
+                    status = LocaleController.getString("FilterNonContact", R.string.FilterNonContact);
+                }
+                setData(user, null, status, 0, divider);
+            }
+        } else {
+            TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-id);
+            if (chat != null) {
+                String status;
+                if (chat.participants_count != 0) {
+                    if (ChatObject.isChannelAndNotMegaGroup(chat)) {
+                        status = LocaleController.formatPluralStringComma("Subscribers", chat.participants_count);
+                    } else {
+                        status = LocaleController.formatPluralStringComma("Members", chat.participants_count);
+                    }
+                } else if (!ChatObject.isPublic(chat)) {
+                    if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                        status = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate);
+                    } else {
+                        status = LocaleController.getString("MegaPrivate", R.string.MegaPrivate);
+                    }
+                } else {
+                    if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                        status = LocaleController.getString("ChannelPublic", R.string.ChannelPublic);
+                    } else {
+                        status = LocaleController.getString("MegaPublic", R.string.MegaPublic);
+                    }
+                }
+                setData(chat, null, status, 0, divider);
+            }
+        }
+    }
+
+    public void setCloseIcon(View.OnClickListener onClick) {
+        if (onClick == null) {
+            if (closeView != null) {
+                removeView(closeView);
+                closeView = null;
+            }
+        } else {
+            if (closeView == null) {
+                closeView = new ImageView(getContext());
+                closeView.setScaleType(ImageView.ScaleType.CENTER);
+                ScaleStateListAnimator.apply(closeView);
+                closeView.setImageResource(R.drawable.ic_close_white);
+                closeView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText3, resourcesProvider), PorterDuff.Mode.SRC_IN));
+                closeView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), Theme.RIPPLE_MASK_CIRCLE_AUTO));
+                addView(closeView, LayoutHelper.createFrame(30, 30, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, LocaleController.isRTL ? 14 : 0, 0, LocaleController.isRTL ? 0 : 14, 0));
+            }
+            closeView.setOnClickListener(onClick);
+        }
+>>>>>>> d494ea8cb (update to 10.12.0 (4710))
     }
 }
