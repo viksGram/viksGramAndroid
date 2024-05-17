@@ -1,4 +1,4 @@
-<img src="https://0x0.st/s/yMcDXVgrMkGqJ8jv2J0gtg/XPN7.png" width="150" align="left"/>
+<img src="https://0x0.st/s/ODF5DviBe1LgCzD1k7j2gw/XPqz.png" width="150" align="left"/>
 
 ## viksGram
 *[Licensed under the GNU General Public License v2.0](https://github.com/viksGram/viksGramAndroid/blob/default/LICENSE)*
