@@ -1,6 +1,6 @@
 /*
 
- This is the source code of exteraGram for Android.
+ This is the source code of viksGram for Android.
 
  We do not and cannot prevent the use of our code,
  but be respectful and credit the original author.
@@ -9,7 +9,7 @@
 
 */
 
-package com.exteragram.messenger.utils;
+package com.viksgram.messenger.utils;
 
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -18,7 +18,7 @@ import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -36,7 +36,7 @@ public class LocaleUtils {
         int actionBarTitle = ExteraConfig.titleText;
         switch (actionBarTitle) {
             case 0:
-                title = LocaleController.getString("exteraAppName", R.string.exteraAppName);
+                title = LocaleController.getString("viksAppName", R.string.viksAppName);
                 break;
             case 3:
                 title = LocaleController.getString(R.string.FilterChats);
@@ -116,9 +116,9 @@ public class LocaleUtils {
 
     public static String getAppName() {
         try {
-            return ApplicationLoader.applicationContext.getString(R.string.exteraAppName);
+            return ApplicationLoader.applicationContext.getString(R.string.viksAppName);
         } catch (Exception e) {
-            return "exteraGram";
+            return "viksGram";
         }
     }
 }

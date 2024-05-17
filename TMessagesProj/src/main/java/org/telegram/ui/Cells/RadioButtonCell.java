@@ -23,7 +23,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadioButton;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 public class RadioButtonCell extends FrameLayout {
 

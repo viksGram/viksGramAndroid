@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Objects;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 @SuppressWarnings("JavaReflectionMemberAccess")
 public class RecyclerListView extends RecyclerView {

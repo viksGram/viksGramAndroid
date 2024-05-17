@@ -1,6 +1,6 @@
 /*
 
- This is the source code of exteraGram for Android.
+ This is the source code of viksGram for Android.
 
  We do not and cannot prevent the use of our code,
  but be respectful and credit the original author.
@@ -9,13 +9,13 @@
 
 */
 
-package com.exteragram.messenger.components;
+package com.viksgram.messenger.components;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.utils.PopupUtils;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.utils.PopupUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;

@@ -34,7 +34,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 <<<<<<< HEAD
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 =======
 import androidx.annotation.NonNull;
 >>>>>>> d494ea8cb (update to 10.12.0 (4710))

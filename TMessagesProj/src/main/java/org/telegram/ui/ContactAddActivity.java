@@ -29,7 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
@@ -213,7 +213,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
         linearLayout.addView(frameLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 24, 24, 0));
 
         avatarImage = new BackupImageView(context);
-        avatarImage.setRoundRadius(ExteraConfig.getAvatarCorners(60));
+        avatarImage.setRoundRadius(viksConfig.getAvatarCorners(60));
         frameLayout.addView(avatarImage, LayoutHelper.createFrame(60, 60, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP));
 
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -424,7 +424,7 @@ public class ContactAddActivity extends BaseFragment implements NotificationCent
                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                     oldAvatarView.measure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(30), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(30), MeasureSpec.EXACTLY));
-                    oldAvatarView.setRoundRadius(ExteraConfig.getAvatarCorners(30));
+                    oldAvatarView.setRoundRadius(viksConfig.getAvatarCorners(30));
                 }
 
                 @Override

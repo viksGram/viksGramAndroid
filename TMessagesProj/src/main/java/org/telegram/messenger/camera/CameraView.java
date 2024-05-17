@@ -56,7 +56,7 @@ import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 <<<<<<< HEAD
 
-import com.exteragram.messenger.camera.BaseCameraView;
+import com.viksgram.messenger.camera.BaseCameraView;
 =======
 >>>>>>> d494ea8cb (update to 10.12.0 (4710))
 

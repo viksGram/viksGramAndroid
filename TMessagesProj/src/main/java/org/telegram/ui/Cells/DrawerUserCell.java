@@ -16,7 +16,7 @@ import android.view.Gravity;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ContactsController;
@@ -45,7 +45,7 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
     private GroupCreateCheckBox checkBox;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable status;
 
-    private Drawable exteraArrow = null;
+    private Drawable viksArrow = null;
 
     private int accountNumber;
     private RectF rect = new RectF();
@@ -150,10 +150,10 @@ public class DrawerUserCell extends FrameLayout implements NotificationCenter.No
             textView.setRightDrawableOutside(true);
         } else if (ExteraConfig.isExteraDev(user)) {
             textView.setDrawablePadding(AndroidUtilities.dp(2));
-            if (exteraArrow == null) {
-                exteraArrow = Theme.dialogs_exteraArrowDrawable;
+            if (viksArrow == null) {
+                viksArrow = Theme.dialogs_viksArrowDrawable;
             }
-            status.set(exteraArrow, true);
+            status.set(viksArrow, true);
             textView.setRightDrawableOutside(true);
         } else if (MessagesController.getInstance(account).isPremiumUser(user)) {
             textView.setDrawablePadding(AndroidUtilities.dp(6));

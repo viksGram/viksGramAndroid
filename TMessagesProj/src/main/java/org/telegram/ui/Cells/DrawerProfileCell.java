@@ -34,7 +34,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
@@ -625,7 +625,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     private int lastAccount = -1;
     private TLRPC.User lastUser = null;
     private Drawable premiumStar = null;
-    private Drawable exteraArrow = null;
+    private Drawable viksArrow = null;
     public void setUser(TLRPC.User user, boolean accounts) {
         int account = UserConfig.selectedAccount;
         if (account != lastAccount) {
@@ -657,11 +657,11 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         } else if (ExteraConfig.isExteraDev(user)) {
             animatedStatus.animate().alpha(1).setDuration(200).start();
             nameTextView.setDrawablePadding(AndroidUtilities.dp(2));
-            if (exteraArrow == null) {
-                exteraArrow = Theme.dialogs_exteraArrowDrawable;
+            if (viksArrow == null) {
+                viksArrow = Theme.dialogs_viksArrowDrawable;
             }
-            exteraArrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuPhoneCats), PorterDuff.Mode.MULTIPLY));
-            status.set(exteraArrow, true);
+            viksArrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_menuPhoneCats), PorterDuff.Mode.MULTIPLY));
+            status.set(viksArrow, true);
         } else if (user.premium) {
             animatedStatus.animate().alpha(1).setDuration(200).start();
             nameTextView.setDrawablePadding(AndroidUtilities.dp(4));

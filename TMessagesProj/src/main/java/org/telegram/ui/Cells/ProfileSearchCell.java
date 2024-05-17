@@ -49,7 +49,7 @@ import org.telegram.ui.NotificationsSettingsActivity;
 
 import java.util.Locale;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 public class ProfileSearchCell extends BaseCell implements NotificationCenter.NotificationCenterDelegate {
 
@@ -573,7 +573,7 @@ public class ProfileSearchCell extends BaseCell implements NotificationCenter.No
             statusDrawable.set(((TLRPC.TL_emojiStatus) user.emoji_status).document_id, animated);
             statusDrawable.setColor(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider));
         } else if (arrow) {
-            statusDrawable.set(Theme.dialogs_exteraArrowDrawable, animated);
+            statusDrawable.set(Theme.dialogs_viksArrowDrawable, animated);
             statusDrawable.setColor(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider));
         } else if (user != null && !savedMessages && MessagesController.getInstance(currentAccount).isPremiumUser(user)) {
             statusDrawable.set(PremiumGradient.getInstance().premiumStarDrawableMini, animated);

@@ -84,12 +84,12 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.ExteraResources;
-import com.exteragram.messenger.utils.ChatUtils;
-import com.exteragram.messenger.utils.MonetUtils;
-import com.exteragram.messenger.preferences.MainPreferencesActivity;
-import com.exteragram.messenger.utils.UpdaterUtils;
+import com.viksgram.messenger.viksConfig;
+import com.viksgram.messenger.viksResources;
+import com.viksgram.messenger.utils.ChatUtils;
+import com.viksgram.messenger.utils.MonetUtils;
+import com.viksgram.messenger.preferences.MainPreferencesActivity;
+import com.viksgram.messenger.utils.UpdaterUtils;
 import com.google.android.gms.common.api.Status;
 import com.google.firebase.appindexing.Action;
 import com.google.firebase.appindexing.FirebaseUserActions;
@@ -213,10 +213,10 @@ import java.util.regex.Pattern;
 
 public class LaunchActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
-    private ExteraResources res = null;
+    private viksResources res = null;
     @Override
     public Resources getResources() {
-        return res == null ? res = new ExteraResources(super.getResources()) : res;
+        return res == null ? res = new viksResources(super.getResources()) : res;
     }
     public void reloadIcons() {
         res.getActiveIconPack();
@@ -966,7 +966,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             });
         }
 
-        if (ExteraConfig.checkUpdatesOnLaunch)
+        if (viksConfig.checkUpdatesOnLaunch)
             UpdaterUtils.checkUpdates(actionBarLayout.getFragmentStack().size() > 0 ? actionBarLayout.getFragmentStack().get(0) : layersActionBarLayout.getFragmentStack().get(0), false);
 
         BackupAgent.requestBackup(this);
@@ -2658,7 +2658,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         url = url.replace("tg:addlist", "tg://telegram.org").replace("tg://addlist", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         folderSlug = data.getQueryParameter("slug");
-                                    } else if ((url.startsWith("tg:extera") || url.startsWith("tg://extera"))) {
+                                    } else if ((url.startsWith("tg:viks") || url.startsWith("tg://viks"))) {
                                         open_settings = 7;
                                     } else if ((url.startsWith("tg:update") || url.startsWith("tg://update"))) {
                                         checkUpdates = true;
@@ -7138,7 +7138,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         showVoiceChatTooltip(mute ? UndoView.ACTION_VOIP_SOUND_MUTED : UndoView.ACTION_VOIP_SOUND_UNMUTED);
                     }
                 }
-            } else if (!ExteraConfig.disablePlayback && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0) {
+            } else if (!viksConfig.disablePlayback && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0) {
                 BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
                 if (fragment instanceof ChatActivity) {
                     if (((ChatActivity) fragment).maybePlayVisibleVideo()) {

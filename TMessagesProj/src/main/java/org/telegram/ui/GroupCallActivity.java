@@ -76,7 +76,7 @@ import androidx.recyclerview.widget.ListUpdateCallback;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -4092,8 +4092,8 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
         cameraButton.setCheckable(true);
         cameraButton.setTextSize(12);
         cameraButton.showText(false, false);
-        cameraButton.setCrossOffset(-AndroidUtilities.dpf2(3.5f + (ExteraConfig.useSolarIcons ? 3.5f : 0)));
-        cameraButton.setCrossOffsetY(-AndroidUtilities.dpf2(ExteraConfig.useSolarIcons ? 3.5f : 0));
+        cameraButton.setCrossOffset(-AndroidUtilities.dpf2(3.5f + (viksConfig.useSolarIcons ? 3.5f : 0)));
+        cameraButton.setCrossOffsetY(-AndroidUtilities.dpf2(viksConfig.useSolarIcons ? 3.5f : 0));
         cameraButton.setVisibility(View.GONE);
         buttonsContainer.addView(cameraButton, LayoutHelper.createFrame(68, 80));
 

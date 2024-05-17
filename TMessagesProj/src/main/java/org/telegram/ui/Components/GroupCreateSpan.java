@@ -40,7 +40,7 @@ import org.telegram.ui.ActionBar.Theme;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 public class GroupCreateSpan extends View {
 
@@ -173,7 +173,7 @@ public class GroupCreateSpan extends View {
         }
 
         imageReceiver = new ImageReceiver();
-        imageReceiver.setRoundRadius(ExteraConfig.getAvatarCorners(32));
+        imageReceiver.setRoundRadius(viksConfig.getAvatarCorners(32));
         imageReceiver.setParentView(this);
         imageReceiver.setImageCoords(0, 0, AndroidUtilities.dp(32), AndroidUtilities.dp(32));
 

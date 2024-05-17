@@ -44,8 +44,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.utils.LocaleUtils;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.utils.LocaleUtils;
 
 public class LocaleController {
 

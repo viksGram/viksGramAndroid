@@ -92,9 +92,9 @@ import org.telegram.ui.Components.UndoView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.utils.FolderIcons;
-import com.exteragram.messenger.components.IconSelectorAlert;
+import com.viksgram.messenger.viksConfig;
+import com.viksgram.messenger.utils.FolderIcons;
+import com.viksgram.messenger.components.IconSelectorAlert;
 
 public class FilterCreateActivity extends BaseFragment {
 
@@ -1592,7 +1592,7 @@ public class FilterCreateActivity extends BaseFragment {
         @Override
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
-            if (divider && !ExteraConfig.disableDividers) {
+            if (divider && !viksConfig.disableDividers) {
                 canvas.drawRect(textView.getLeft(), getMeasuredHeight() - 1, textView.getRight(), getMeasuredHeight(), Theme.dividerPaint);
             }
         }
@@ -1653,7 +1653,7 @@ public class FilterCreateActivity extends BaseFragment {
         protected void onDraw(Canvas canvas) {
             super.onDraw(canvas);
 
-            if (needDivider && !ExteraConfig.disableDividers) {
+            if (needDivider && !viksConfig.disableDividers) {
                 canvas.drawRect(textView.getLeft(), getMeasuredHeight() - 1, textView.getRight(), getMeasuredHeight(), Theme.dividerPaint);
             }
         }
@@ -1747,7 +1747,7 @@ public class FilterCreateActivity extends BaseFragment {
                 revokedLinkIcon.draw(canvas);
             }
 
-            if (needDivider && !ExteraConfig.disableDividers) {
+            if (needDivider && !viksConfig.disableDividers) {
                 canvas.drawRect(LocaleController.isRTL ? 0 : dp(64), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? dp(64) : 0), getMeasuredHeight(), Theme.dividerPaint);
             }
         }

@@ -57,8 +57,8 @@ import java.io.File;
 import java.util.Date;
 import java.util.Locale;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.utils.CanvasUtils;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.utils.CanvasUtils;
 
 public class SharedDocumentCell extends FrameLayout implements DownloadController.FileDownloadProgressListener {
 

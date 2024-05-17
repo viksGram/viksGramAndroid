@@ -44,7 +44,7 @@ import org.telegram.ui.Components.CheckBoxSquare;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.NotificationsSettingsActivity;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
@@ -57,7 +57,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private TextView adminTextView;
     private TextView addButton;
     private Drawable premiumDrawable;
-    private Drawable exteraArrow;
+    private Drawable viksArrow;
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatus;
     private Theme.ResourcesProvider resourcesProvider;
 
@@ -495,7 +495,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 nameTextView.setRightDrawable(emojiStatus);
             } else {
                 if (ExteraConfig.isExteraDev(currentUser)) {
-                    Drawable arrow = Theme.dialogs_exteraArrowDrawable.getConstantState().newDrawable().mutate();
+                    Drawable arrow = Theme.dialogs_viksArrowDrawable.getConstantState().newDrawable().mutate();
                     arrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider), PorterDuff.Mode.MULTIPLY));
                     nameTextView.setRightDrawable(arrow);
                     nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
@@ -518,7 +518,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             }
             nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));
         } else if (currentUser != null && ExteraConfig.isExteraDev(currentUser)) {
-            Drawable arrow = Theme.dialogs_exteraArrowDrawable.getConstantState().newDrawable().mutate();
+            Drawable arrow = Theme.dialogs_viksArrowDrawable.getConstantState().newDrawable().mutate();
             arrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider), PorterDuff.Mode.MULTIPLY));
             nameTextView.setRightDrawable(arrow);
             nameTextView.setRightDrawableTopPadding(-AndroidUtilities.dp(0.5f));

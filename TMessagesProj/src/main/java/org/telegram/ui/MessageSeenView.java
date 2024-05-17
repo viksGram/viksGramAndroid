@@ -59,7 +59,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 public class MessageSeenView extends FrameLayout {
 
@@ -360,7 +360,7 @@ public class MessageSeenView extends FrameLayout {
         public UserCell(Context context) {
             super(context);
             avatarImageView = new BackupImageView(context);
-            avatarImageView.setRoundRadius(ExteraConfig.getAvatarCorners(34));
+            avatarImageView.setRoundRadius(viksConfig.getAvatarCorners(34));
 
             nameView = new SimpleTextView(context);
             nameView.setTextSize(16);

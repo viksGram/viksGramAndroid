@@ -1,6 +1,6 @@
 /*
 
- This is the source code of exteraGram for Android.
+ This is the source code of viksGram for Android.
 
  We do not and cannot prevent the use of our code,
  but be respectful and credit the original author.
@@ -9,17 +9,17 @@
 
 */
 
-package com.exteragram.messenger;
+package com.viksgram.messenger;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
 
 import androidx.annotation.NonNull;
 
-import com.exteragram.messenger.camera.CameraXUtils;
-import com.exteragram.messenger.icons.BaseIconSet;
-import com.exteragram.messenger.icons.EmptyIconSet;
-import com.exteragram.messenger.icons.SolarIconSet;
+import com.viksgram.messenger.camera.CameraXUtils;
+import com.viksgram.messenger.icons.BaseIconSet;
+import com.viksgram.messenger.icons.EmptyIconSet;
+import com.viksgram.messenger.icons.SolarIconSet;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -32,7 +32,7 @@ import org.telegram.tgnet.TLRPC;
 
 import java.util.Arrays;
 
-public class ExteraConfig {
+public class viksConfig {
 
     private static final Object sync = new Object();
 
@@ -155,7 +155,7 @@ public class ExteraConfig {
                 return;
             }
 
-            preferences = ApplicationLoader.applicationContext.getSharedPreferences("exteraconfig", Activity.MODE_PRIVATE);
+            preferences = ApplicationLoader.applicationContext.getSharedPreferences("viksconfig", Activity.MODE_PRIVATE);
             editor = preferences.edit();
 
             // General
@@ -266,11 +266,11 @@ public class ExteraConfig {
         }
     }
 
-    public static boolean isExtera(@NonNull TLRPC.Chat chat) {
+    public static boolean isviks(@NonNull TLRPC.Chat chat) {
         return Arrays.stream(OFFICIAL_CHANNELS).anyMatch(id -> id == chat.id);
     }
 
-    public static boolean isExteraDev(@NonNull TLRPC.User user) {
+    public static boolean isviksDev(@NonNull TLRPC.User user) {
         return Arrays.stream(DEVS).anyMatch(id -> id == user.id);
     }
 
@@ -371,7 +371,7 @@ public class ExteraConfig {
 
     public static void clearPreferences() {
         configLoaded = false;
-        ExteraConfig.editor.clear().apply();
-        ExteraConfig.loadConfig();
+        viksConfig.editor.clear().apply();
+        viksConfig.loadConfig();
     }
 }

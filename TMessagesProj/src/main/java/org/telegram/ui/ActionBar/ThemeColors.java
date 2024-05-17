@@ -7,7 +7,7 @@ import android.util.SparseArray;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.ExteraConfig;
 
 import java.util.HashMap;
 

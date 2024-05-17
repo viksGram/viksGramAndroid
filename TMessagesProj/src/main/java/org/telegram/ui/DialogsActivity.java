@@ -83,11 +83,11 @@ import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.components.TranslateBeforeSendWrapper;
-import com.exteragram.messenger.utils.CanvasUtils;
-import com.exteragram.messenger.utils.LocaleUtils;
-import com.exteragram.messenger.utils.TranslatorUtils;
+import com.viksgram.messenger.viksConfig;
+import com.viksgram.messenger.components.TranslateBeforeSendWrapper;
+import com.viksgram.messenger.utils.CanvasUtils;
+import com.viksgram.messenger.utils.LocaleUtils;
+import com.viksgram.messenger.utils.TranslatorUtils;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -780,11 +780,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if (searchAnimationProgress < 1) {
                         int a = Theme.dividerPaint.getAlpha();
                         Theme.dividerPaint.setAlpha((int) (a * searchAnimationProgress));
-                        if (!ExteraConfig.disableDividers)
+                        if (!viksConfig.disableDividers)
                             canvas.drawLine(0, y, getMeasuredWidth(), y, Theme.dividerPaint);
                         Theme.dividerPaint.setAlpha(a);
                     } else {
-                        if (!ExteraConfig.disableDividers)
+                        if (!viksConfig.disableDividers)
                             canvas.drawLine(0, y, getMeasuredWidth(), y, Theme.dividerPaint);
                     }
                 }
@@ -1459,7 +1459,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 int alpha = Theme.dividerPaint.getAlpha();
                 Theme.dividerPaint.setAlpha((int) (rightFragmentOpenedProgress * alpha));
-                if (!ExteraConfig.disableDividers)
+                if (!viksConfig.disableDividers)
                     canvas.drawRect(AndroidUtilities.dp(RightSlidingDialogContainer.getRightPaddingSize()), 0, AndroidUtilities.dp(RightSlidingDialogContainer.getRightPaddingSize()) - 1, getMeasuredHeight(), Theme.dividerPaint);
                 Theme.dividerPaint.setAlpha(alpha);
             }
@@ -1864,7 +1864,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 ((DialogCell) view).startOutAnimation();
                                 parentPage.archivePullViewState = ARCHIVE_ITEM_STATE_SHOWED;
-                                if (ExteraConfig.archiveOnPull) {
+                                if (viksConfig.archiveOnPull) {
                                     AndroidUtilities.runOnUIThread(() -> {
                                         Bundle args = new Bundle();
                                         args.putInt("folderId", 1);
@@ -2015,7 +2015,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     if ((filterTabsView != null && filterTabsView.getVisibility() == View.VISIBLE && SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_FOLDERS) || !allowSwipeDuringCurrentTouch || ((dialogId == getUserConfig().clientUserId || dialogId == 777000 || currentDialogsType == 7 || currentDialogsType == 8) && SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_ARCHIVE) || getMessagesController().isPromoDialog(dialogId, false) && getMessagesController().promoDialogType != MessagesController.PROMO_TYPE_PSA) {
                         return 0;
                     }
-                    if (folderId != 0 && ExteraConfig.disableUnarchiveSwipe) {
+                    if (folderId != 0 && viksConfig.disableUnarchiveSwipe) {
                         return 0;
                     }
                     boolean canSwipeBack = folderId == 0 && (SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_MUTE || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_READ || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_PIN || SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_DELETE) && !rightSlidingDialogContainer.hasFragment();
@@ -2928,7 +2928,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 @Override
                 public int getTabCounter(int tabId) {
-                    if (initialDialogsType == DIALOGS_TYPE_FORWARD || !ExteraConfig.tabCounter) {
+                    if (initialDialogsType == DIALOGS_TYPE_FORWARD || !viksConfig.tabCounter) {
                         return 0;
                     }
                     if (tabId == filterTabsView.getDefaultTabId()) {
@@ -3016,7 +3016,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
 
                     filterOptions = ItemOptions.makeOptions(DialogsActivity.this, tabView)
-                        .setScrimViewBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(ExteraConfig.tabStyle == 3 ? 8 : (ExteraConfig.tabStyle == 4 ? 20 : 6)), 0, Theme.getColor(Theme.key_actionBarDefault)))
+                        .setScrimViewBackground(Theme.createRoundRectDrawable(AndroidUtilities.dp(viksConfig.tabStyle == 3 ? 8 : (viksConfig.tabStyle == 4 ? 20 : 6)), 0, Theme.getColor(Theme.key_actionBarDefault)))
                         .addIf(getMessagesController().getDialogFilters().size() > 1, R.drawable.tabs_reorder, LocaleController.getString("FilterReorder", R.string.FilterReorder), () -> {
                             resetScroll();
                             filterTabsView.setIsEditing(true);
@@ -3064,14 +3064,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     showDeleteAlert(getMessagesController().getDialogFilters().get(id));
                 }
 
-                private int lastTitleType = ExteraConfig.tabIcons;
+                private int lastTitleType = viksConfig.tabIcons;
 
                 @Override
                 public void onTabSelected(FilterTabsView.Tab tab, boolean forward, boolean animated) {
-                    if (ExteraConfig.tabIcons != 2) {
+                    if (viksConfig.tabIcons != 2) {
                         if (lastTitleType == 2) {
                             actionBar.setTitle(LocaleUtils.getActionBarTitle(), statusDrawable);
-                            lastTitleType = ExteraConfig.tabIcons;
+                            lastTitleType = viksConfig.tabIcons;
                         }
                         return;
                     }
@@ -3093,7 +3093,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             avatarDrawable.setTextSize(AndroidUtilities.dp(12));
 
             BackupImageView imageView = new BackupImageView(context);
-            imageView.setRoundRadius(ExteraConfig.getAvatarCorners(36));
+            imageView.setRoundRadius(viksConfig.getAvatarCorners(36));
             switchItem.addView(imageView, LayoutHelper.createFrame(36, 36, Gravity.CENTER));
 
             TLRPC.User user = getUserConfig().getCurrentUser();
@@ -3929,7 +3929,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             @SuppressLint("NewApi")
             @Override
             public void getOutline(View view, Outline outline) {
-                if (ExteraConfig.squareFab) {
+                if (viksConfig.squareFab) {
                     outline.setRoundRect(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56), AndroidUtilities.dp(16));
                 } else {
                     outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
@@ -4204,7 +4204,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 @SuppressLint("NewApi")
                 @Override
                 public void getOutline(View view, Outline outline) {
-                    if (ExteraConfig.squareFab) {
+                    if (viksConfig.squareFab) {
                         outline.setRoundRect(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56), AndroidUtilities.dp(16));
                     } else {
                         outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
@@ -4522,7 +4522,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (folderId == 1) {
                 avatarContainer.getSubtitleTextView().setVisibility(View.GONE);
                 avatarContainer.setTitle(LocaleController.getString("ArchivedChats", R.string.ArchivedChats));
-                CombinedDrawable thumbDrawable = CanvasUtils.createRoundRectDrawableWithIcon(AndroidUtilities.dp(42), ExteraConfig.getAvatarCorners(42), R.drawable.chats_archive);
+                CombinedDrawable thumbDrawable = CanvasUtils.createRoundRectDrawableWithIcon(AndroidUtilities.dp(42), viksConfig.getAvatarCorners(42), R.drawable.chats_archive);
                 thumbDrawable.setIconSize(AndroidUtilities.dp(22), AndroidUtilities.dp(22));
                 Theme.setCombinedDrawableColor(thumbDrawable, getThemedColor(Theme.key_avatar_backgroundArchivedHidden), false);
                 Theme.setCombinedDrawableColor(thumbDrawable, getThemedColor(Theme.key_avatar_text), true);
@@ -5794,12 +5794,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 filterTabsView.removeTabs();
                 for (int a = 0, N = filters.size(); a < N; a++) {
                     if (filters.get(a).isDefault()) {
-                        if (!ExteraConfig.hideAllChats) filterTabsView.addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), "\uD83D\uDCAC", true,  filters.get(a).locked);
+                        if (!viksConfig.hideAllChats) filterTabsView.addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), "\uD83D\uDCAC", true,  filters.get(a).locked);
                     } else {
                         filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, filters.get(a).emoticon == null ? "\uD83D\uDCC1" : filters.get(a).emoticon, false,  filters.get(a).locked);
                     }
                 }
-                if (ExteraConfig.hideAllChats && stableId <= 0) {
+                if (viksConfig.hideAllChats && stableId <= 0) {
                     id = filterTabsView.getFirstTabId();
                     updateCurrentTab = true;
                     viewPages[0].selectedType = id;
@@ -10263,7 +10263,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 protected void onClick() {
                     if (sendPopupWindow != null && sendPopupWindow.isShowing())
                         sendPopupWindow.dismiss();
-                    TranslatorUtils.translate(commentView.getFieldText(), ExteraConfig.getCurrentLangCode(), translated -> {
+                    TranslatorUtils.translate(commentView.getFieldText(), viksConfig.getCurrentLangCode(), translated -> {
                         commentView.setFieldText(translated);
                         commentView.setSelection(translated.length());
                     }, null);
@@ -11114,13 +11114,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public int getSlideAmplitude() {
-        if (isDrawerTransition && ExteraConfig.alternativeOpenAnimation) {
+        if (isDrawerTransition && viksConfig.alternativeOpenAnimation) {
             return parentLayout.getDrawerLayoutContainer().getDrawerWidth();
         }
         return AndroidUtilities.dp(slideFragmentLite ? slideAmplitudeDp : 4) * (!slideFragmentLite ? (isDrawerTransition ? 1 : -1) : 1);
     }
 
     public boolean allowToScale() {
-        return !isDrawerTransition || !ExteraConfig.alternativeOpenAnimation;
+        return !isDrawerTransition || !viksConfig.alternativeOpenAnimation;
     }
 }

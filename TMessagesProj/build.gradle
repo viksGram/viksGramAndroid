@@ -133,7 +133,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("config/extera.jks")
+            storeFile file("config/viks.jks")
             storePassword localProperties.getProperty("SIGNING_KEY_STORE_PASSWORD")
             keyAlias localProperties.getProperty("SIGNING_KEY_ALIAS")
             keyPassword localProperties.getProperty("SIGNING_KEY_PASSWORD")
@@ -210,7 +210,7 @@ android {
             def formattedDate = date.format('ddMMyyyy')
             def abi = abis.get(variant.productFlavors.get(0).abiVersionCode)
 
-            outputFileName = "exteraGram-${buildType}${abi}-${formattedDate}.apk"
+            outputFileName = "viksGram-${buildType}${abi}-${formattedDate}.apk"
             output.versionCodeOverride = defaultConfig.versionCode * (isPmBuild == "true" ? 100 : 10) + variant.productFlavors.get(0).abiVersionCode
         }
     }

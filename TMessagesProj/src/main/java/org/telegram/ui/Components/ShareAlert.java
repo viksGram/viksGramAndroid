@@ -113,10 +113,10 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.components.TranslateBeforeSendWrapper;
-import com.exteragram.messenger.utils.CanvasUtils;
-import com.exteragram.messenger.utils.TranslatorUtils;
+import com.viksgram.messenger.viksConfig;
+import com.viksgram.messenger.components.TranslateBeforeSendWrapper;
+import com.viksgram.messenger.utils.CanvasUtils;
+import com.viksgram.messenger.utils.TranslatorUtils;
 
 public class ShareAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1464,7 +1464,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             @SuppressLint("NewApi")
             @Override
             public void getOutline(View view, Outline outline) {
-                if (ExteraConfig.squareFab) {
+                if (viksConfig.squareFab) {
                     outline.setRoundRect(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56), AndroidUtilities.dp(16));
                 } else {
                     outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
@@ -1895,7 +1895,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 protected void onClick() {
                     if (sendPopupWindow != null && sendPopupWindow.isShowing())
                         sendPopupWindow.dismiss();
-                    TranslatorUtils.translate(commentTextView.getText(), ExteraConfig.getCurrentLangCode(), translated -> {
+                    TranslatorUtils.translate(commentTextView.getText(), viksConfig.getCurrentLangCode(), translated -> {
                         commentTextView.setText(translated);
                         commentTextView.setSelection(translated.length());
                     }, null);

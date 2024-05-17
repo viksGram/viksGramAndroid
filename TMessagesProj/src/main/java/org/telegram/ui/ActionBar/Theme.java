@@ -73,9 +73,9 @@ import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.utils.LocaleUtils;
-import com.exteragram.messenger.utils.MonetUtils;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.utils.LocaleUtils;
+import com.viksgram.messenger.utils.MonetUtils;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -3001,7 +3001,7 @@ public class Theme {
     public static Drawable dialogs_lockDrawable;
     public static Drawable dialogs_lock2Drawable;
     public static Drawable dialogs_muteDrawable;
-    public static Drawable dialogs_exteraArrowDrawable;
+    public static Drawable dialogs_viksArrowDrawable;
     public static Drawable dialogs_unmuteDrawable;
     public static Drawable dialogs_verifiedDrawable;
     public static ScamDrawable dialogs_scamDrawable;
@@ -3037,7 +3037,7 @@ public class Theme {
     public static TextPaint profile_aboutTextPaint;
     public static Drawable profile_verifiedDrawable;
     public static Drawable profile_verifiedCheckDrawable;
-    public static Drawable profile_exteraArrowDrawable;
+    public static Drawable profile_viksArrowDrawable;
 
     public static Paint chat_docBackPaint;
     public static Paint chat_deleteProgressPaint;
@@ -8014,7 +8014,7 @@ public class Theme {
             dialogs_muteDrawable = resources.getDrawable(R.drawable.list_mute).mutate();
             dialogs_unmuteDrawable = resources.getDrawable(R.drawable.list_unmute).mutate();
             dialogs_verifiedDrawable = resources.getDrawable(R.drawable.verified_area).mutate();
-            dialogs_exteraArrowDrawable = resources.getDrawable(R.drawable.ic_status_arrow).mutate();
+            dialogs_viksArrowDrawable = resources.getDrawable(R.drawable.ic_status_arrow).mutate();
             dialogs_scamDrawable = new ScamDrawable(11, 0);
             dialogs_fakeDrawable = new ScamDrawable(11, 1);
             dialogs_verifiedCheckDrawable = resources.getDrawable(R.drawable.verified_check).mutate();
@@ -8098,7 +8098,7 @@ public class Theme {
         setDrawableColorByKey(dialogs_forum_arrowDrawable, key_chats_message);
         setDrawableColorByKey(dialogs_reactionsMentionDrawable, key_chats_mentionIcon);
         setDrawableColorByKey(dialogs_verifiedDrawable, key_chats_verifiedBackground);
-        setDrawableColorByKey(dialogs_exteraArrowDrawable, key_chats_verifiedBackground);
+        setDrawableColorByKey(dialogs_viksArrowDrawable, key_chats_verifiedBackground);
         setDrawableColorByKey(dialogs_verifiedCheckDrawable, key_chats_verifiedCheck);
         setDrawableColorByKey(dialogs_holidayDrawable, key_actionBarDefaultTitle);
         setDrawableColorByKey(dialogs_scamDrawable, key_chats_draft);
@@ -8124,8 +8124,8 @@ public class Theme {
             profile_verifiedDrawable = null;
             createProfileResources(context);
         }
-        if (profile_exteraArrowDrawable != null) {
-            profile_exteraArrowDrawable = null;
+        if (profile_viksArrowDrawable != null) {
+            profile_viksArrowDrawable = null;
             createProfileResources(context);
         }
     }
@@ -8977,14 +8977,14 @@ public class Theme {
     }
 
     public static void createProfileResources(Context context) {
-        if (profile_verifiedDrawable == null || profile_exteraArrowDrawable == null) {
+        if (profile_verifiedDrawable == null || profile_viksArrowDrawable == null) {
             profile_aboutTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
 
             Resources resources = context.getResources();
 
             profile_verifiedDrawable = resources.getDrawable(R.drawable.verified_area).mutate();
             profile_verifiedCheckDrawable = resources.getDrawable(R.drawable.verified_check).mutate();
-            profile_exteraArrowDrawable = resources.getDrawable(R.drawable.ic_status_arrow).mutate();
+            profile_viksArrowDrawable = resources.getDrawable(R.drawable.ic_status_arrow).mutate();
 
             applyProfileTheme();
         }
@@ -9014,14 +9014,14 @@ public class Theme {
     }
 
     public static void applyProfileTheme() {
-        if (profile_verifiedDrawable == null || profile_exteraArrowDrawable == null) {
+        if (profile_verifiedDrawable == null || profile_viksArrowDrawable == null) {
             return;
         }
 
         profile_aboutTextPaint.setColor(getColor(key_windowBackgroundWhiteBlackText));
         profile_aboutTextPaint.linkColor = getColor(key_windowBackgroundWhiteLinkText);
 
-        setDrawableColorByKey(profile_exteraArrowDrawable, key_profile_verifiedBackground);
+        setDrawableColorByKey(profile_viksArrowDrawable, key_profile_verifiedBackground);
         setDrawableColorByKey(profile_verifiedDrawable, key_profile_verifiedBackground);
         setDrawableColorByKey(profile_verifiedCheckDrawable, key_profile_verifiedCheck);
     }

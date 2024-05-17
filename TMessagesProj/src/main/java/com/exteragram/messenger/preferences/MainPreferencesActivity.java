@@ -1,6 +1,6 @@
 /*
 
- This is the source code of exteraGram for Android.
+ This is the source code of viksGram for Android.
 
  We do not and cannot prevent the use of our code,
  but be respectful and credit the original author.
@@ -9,7 +9,7 @@
 
 */
 
-package com.exteragram.messenger.preferences;
+package com.viksgram.messenger.preferences;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -25,8 +25,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.exteragram.messenger.preferences.components.HeaderSettingsCell;
-import com.exteragram.messenger.preferences.updater.UpdaterBottomSheet;
+import com.viksgram.messenger.preferences.components.HeaderSettingsCell;
+import com.viksgram.messenger.preferences.updater.UpdaterBottomSheet;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
@@ -214,13 +214,13 @@ public class MainPreferencesActivity extends BasePreferencesActivity {
             if (!BuildVars.PM_BUILD)
                 (new UpdaterBottomSheet(getParentActivity(), this, false, null)).show();
         } else if (position == sourceCodeRow) {
-            Browser.openUrl(getParentActivity(), "https://github.com/exteraSquad/exteraGram");
+            Browser.openUrl(getParentActivity(), "https://github.com/viksSquad/viksGram");
         } else if (position == channelRow) {
-            MessagesController.getInstance(currentAccount).openByUserName(("exteraGram"), this, 1);
+            MessagesController.getInstance(currentAccount).openByUserName(("viksGram"), this, 1);
         } else if (position == groupRow) {
-            MessagesController.getInstance(currentAccount).openByUserName(("exteraChat"), this, 1);
+            MessagesController.getInstance(currentAccount).openByUserName(("viksChat"), this, 1);
         } else if (position == crowdinRow) {
-            Browser.openUrl(getParentActivity(), "https://crowdin.com/project/exteralocales");
+            Browser.openUrl(getParentActivity(), "https://crowdin.com/project/vikslocales");
         } else if (position == appearanceRow) {
             presentFragment(new AppearancePreferencesActivity());
         } else if (position == chatsRow) {
@@ -275,9 +275,9 @@ public class MainPreferencesActivity extends BasePreferencesActivity {
                     } else if (position == otherRow) {
                         textCell.setTextAndIcon(LocaleController.getString("LocalOther", R.string.LocalOther), R.drawable.msg_fave, false);
                     } else if (position == channelRow) {
-                        textCell.setTextAndValueAndIcon(LocaleController.getString("Channel", R.string.Channel), "@exteraGram", R.drawable.msg_channel, true);
+                        textCell.setTextAndValueAndIcon(LocaleController.getString("Channel", R.string.Channel), "@viksGram", R.drawable.msg_channel, true);
                     } else if (position == groupRow) {
-                        textCell.setTextAndValueAndIcon(LocaleController.getString("SearchAllChatsShort", R.string.SearchAllChatsShort), "@exteraChat", R.drawable.msg_groups, true);
+                        textCell.setTextAndValueAndIcon(LocaleController.getString("SearchAllChatsShort", R.string.SearchAllChatsShort), "@viksChat", R.drawable.msg_groups, true);
                     } else if (position == crowdinRow) {
                         textCell.setTextAndValueAndIcon(LocaleController.getString("Crowdin", R.string.Crowdin), "Crowdin", R.drawable.msg_translate, true);
                     } else if (position == sourceCodeRow) {

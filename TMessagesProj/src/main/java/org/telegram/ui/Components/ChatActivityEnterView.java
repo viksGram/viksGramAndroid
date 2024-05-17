@@ -101,14 +101,14 @@ import androidx.dynamicanimation.animation.SpringForce;
 import androidx.recyclerview.widget.ChatListItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.components.ChatActivityEnterViewStaticIconView;
-import com.exteragram.messenger.components.TranslateBeforeSendWrapper;
-import com.exteragram.messenger.boost.BoostController;
-import com.exteragram.messenger.boost.encryption.EncryptionHelper;
-import com.exteragram.messenger.utils.ChatUtils;
-import com.exteragram.messenger.utils.PopupUtils;
-import com.exteragram.messenger.utils.TranslatorUtils;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.components.ChatActivityEnterViewStaticIconView;
+import com.viksgram.messenger.components.TranslateBeforeSendWrapper;
+import com.viksgram.messenger.boost.BoostController;
+import com.viksgram.messenger.boost.encryption.EncryptionHelper;
+import com.viksgram.messenger.utils.ChatUtils;
+import com.viksgram.messenger.utils.PopupUtils;
+import com.viksgram.messenger.utils.TranslatorUtils;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;

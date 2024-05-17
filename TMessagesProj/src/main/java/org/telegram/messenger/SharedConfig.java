@@ -1298,10 +1298,10 @@ public class SharedConfig {
     public static void checkSaveToGalleryFiles() {
         Utilities.globalQueue.postRunnable(() -> {
             try {
-                File telegramPath = new File(Environment.getExternalStorageDirectory(), "exteraGram");
-                File imagePath = new File(telegramPath, "exteraGram Images");
+                File telegramPath = new File(Environment.getExternalStorageDirectory(), "viksGram");
+                File imagePath = new File(telegramPath, "viksGram Images");
                 imagePath.mkdir();
-                File videoPath = new File(telegramPath, "exteraGram Video");
+                File videoPath = new File(telegramPath, "viksGram Video");
                 videoPath.mkdir();
 
                 if (!BuildVars.NO_SCOPED_STORAGE) {

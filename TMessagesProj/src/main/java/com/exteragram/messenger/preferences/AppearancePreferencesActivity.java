@@ -1,6 +1,6 @@
 /*
 
- This is the source code of exteraGram for Android.
+ This is the source code of viksGram for Android.
 
  We do not and cannot prevent the use of our code,
  but be respectful and credit the original author.
@@ -9,7 +9,7 @@
 
 */
 
-package com.exteragram.messenger.preferences;
+package com.viksgram.messenger.preferences;
 
 import android.content.Context;
 import android.os.Parcelable;
@@ -19,17 +19,17 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.preferences.components.AvatarCornersPreviewCell;
-import com.exteragram.messenger.preferences.components.ChatListPreviewCell;
-import com.exteragram.messenger.preferences.components.FabShapeCell;
-import com.exteragram.messenger.preferences.components.FoldersPreviewCell;
-import com.exteragram.messenger.preferences.components.SolarIconsPreview;
-import com.exteragram.messenger.utils.AppUtils;
-import com.exteragram.messenger.utils.ChatUtils;
-import com.exteragram.messenger.utils.LocaleUtils;
-import com.exteragram.messenger.utils.PopupUtils;
-import com.exteragram.messenger.utils.SystemUtils;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.preferences.components.AvatarCornersPreviewCell;
+import com.viksgram.messenger.preferences.components.ChatListPreviewCell;
+import com.viksgram.messenger.preferences.components.FabShapeCell;
+import com.viksgram.messenger.preferences.components.FoldersPreviewCell;
+import com.viksgram.messenger.preferences.components.SolarIconsPreview;
+import com.viksgram.messenger.utils.AppUtils;
+import com.viksgram.messenger.utils.ChatUtils;
+import com.viksgram.messenger.utils.LocaleUtils;
+import com.viksgram.messenger.utils.PopupUtils;
+import com.viksgram.messenger.utils.SystemUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -62,7 +62,7 @@ public class AppearancePreferencesActivity extends BasePreferencesActivity {
             LocaleController.getString("TabStyleChips", R.string.TabStyleChips),
             LocaleController.getString("TabStylePills", R.string.TabStylePills),
     }, titles = new CharSequence[]{
-            LocaleController.getString("exteraAppName", R.string.exteraAppName),
+            LocaleController.getString("viksAppName", R.string.viksAppName),
             LocaleController.getString("ActionBarTitleUsername", R.string.ActionBarTitleUsername),
             LocaleController.getString("ActionBarTitleName", R.string.ActionBarTitleName),
             LocaleController.getString("FilterChats", R.string.FilterChats)

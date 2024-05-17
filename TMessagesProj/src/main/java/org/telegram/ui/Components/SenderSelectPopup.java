@@ -35,7 +35,7 @@ import androidx.dynamicanimation.animation.SpringForce;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -503,7 +503,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             setPadding(padding, padding / 2, padding, padding / 2);
 
             avatar = new SimpleAvatarView(context);
-            avatar.setAvatarCorners(ExteraConfig.getAvatarCorners(AVATAR_SIZE_DP));
+            avatar.setAvatarCorners(viksConfig.getAvatarCorners(AVATAR_SIZE_DP));
             addView(avatar, LayoutHelper.createFrame(AVATAR_SIZE_DP, AVATAR_SIZE_DP));
 
             LinearLayout textRow = new LinearLayout(context);

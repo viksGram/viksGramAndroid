@@ -1,6 +1,6 @@
 /*
 
- This is the source code of exteraGram for Android.
+ This is the source code of viksGram for Android.
 
  We do not and cannot prevent the use of our code,
  but be respectful and credit the original author.
@@ -9,7 +9,7 @@
 
 */
 
-package com.exteragram.messenger.preferences.components;
+package com.viksgram.messenger.preferences.components;
 
 import android.content.Context;
 import android.graphics.PorterDuff;
@@ -24,7 +24,7 @@ import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
 
-import com.exteragram.messenger.utils.MonetUtils;
+import com.viksgram.messenger.utils.MonetUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
@@ -62,7 +62,7 @@ public class HeaderSettingsCell extends FrameLayout {
         titleTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 22);
-        titleTextView.setText(String.format("%s %s", LocaleController.getString(R.string.exteraAppName), BuildVars.BUILD_VERSION_STRING));
+        titleTextView.setText(String.format("%s %s", LocaleController.getString(R.string.viksAppName), BuildVars.BUILD_VERSION_STRING));
         titleTextView.setLines(1);
         titleTextView.setMaxLines(1);
         titleTextView.setSingleLine(true);

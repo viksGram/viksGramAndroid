@@ -64,7 +64,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.exteragram.messenger.ExteraConfig;
+import com.viksgram.messenger.viksConfig;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
@@ -2557,7 +2557,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         shadowLine = new View(context);
 <<<<<<< HEAD
-        if (!ExteraConfig.disableDividers) {
+        if (!viksConfig.disableDividers) {
             shadowLine.setBackgroundColor(getThemedColor(Theme.key_divider));
             FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
             layoutParams.topMargin = AndroidUtilities.dp(48) - 1;

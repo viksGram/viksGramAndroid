@@ -1,4 +1,4 @@
-<img src="https://i.imgur.com/5EmxevP.png" width="150" align="left"/>
+<img src="https://0x0.st/s/yMcDXVgrMkGqJ8jv2J0gtg/XPN7.png" width="150" align="left"/>
 
 ## viksGram
 *[Licensed under the GNU General Public License v2.0](https://github.com/viksGram/viksGramAndroid/blob/default/LICENSE)*
@@ -25,7 +25,7 @@ SIGNING_KEY_STORE_PASSWORD = Z9yXDEFHJ6KRqn7oP
 ```
 
 ## Compilation Guide
-1. Clone exteraGram's source code using `git clone https://github.com/viksGram/viksGramAndroid.git`
+1. Clone viksGram's source code using `git clone https://github.com/viksGram/viksGramAndroid.git`
 2. Fill out values in `API_KEYS` like [here](https://github.com/viksGram/viksGramAndroid#importing-api-hash-and-keys)
 3. Open the project in Android Studio. It should be opened, **not imported**
 4. You are ready to compile `viksGram`

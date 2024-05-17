@@ -51,8 +51,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerCustom;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.utils.CanvasUtils;
+import com.viksgram.messenger.viksConfig;
+import com.viksgram.messenger.utils.CanvasUtils;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -1115,7 +1115,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             @SuppressLint("NewApi")
             @Override
             public void getOutline(View view, Outline outline) {
-                if (ExteraConfig.squareFab) {
+                if (viksConfig.squareFab) {
                     outline.setRoundRect(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56), AndroidUtilities.dp(16));
                 } else {
                     outline.setOval(0, 0, AndroidUtilities.dp(56), AndroidUtilities.dp(56));
@@ -1172,7 +1172,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             protected void dispatchDraw(Canvas canvas) {
                 super.dispatchDraw(canvas);
                 int bottom = Theme.chat_composeShadowDrawable.getIntrinsicHeight();
-                if (!ExteraConfig.disableDividers)
+                if (!viksConfig.disableDividers)
                     canvas.drawLine(0, bottom, getWidth(), bottom, Theme.dividerPaint);
             }
         };
@@ -2866,7 +2866,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
             canvas.restore();
             canvas.save();
             canvas.translate(super.translationX, 0);
-            if (drawDivider && !ExteraConfig.disableDividers) {
+            if (drawDivider && !viksConfig.disableDividers) {
                 int left = fullSeparator ? 0 : AndroidUtilities.dp(messagePaddingStart);
                 if (LocaleController.isRTL) {
                     canvas.drawLine(0 - super.translationX, getMeasuredHeight() - 1, getMeasuredWidth() - left, getMeasuredHeight() - 1, Theme.dividerPaint);

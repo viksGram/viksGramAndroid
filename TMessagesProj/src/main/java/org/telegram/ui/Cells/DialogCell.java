@@ -113,8 +113,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Stack;
 
-import com.exteragram.messenger.ExteraConfig;
-import com.exteragram.messenger.boost.filter.ZalgoFilter;
+import com.viksgram.messenger.ExteraConfig;
+import com.viksgram.messenger.boost.filter.ZalgoFilter;
 
 public class DialogCell extends BaseCell {
 
@@ -1122,7 +1122,7 @@ public class DialogCell extends BaseCell {
                                 emojiStatus.set(emojiStatusId, false);
                             } else {
                                 if (drawArrow) {
-                                    Drawable arrow = Theme.dialogs_exteraArrowDrawable;
+                                    Drawable arrow = Theme.dialogs_viksArrowDrawable;
                                     arrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider), PorterDuff.Mode.MULTIPLY));
                                     emojiStatus.set(arrow, false);
                                 } else {
@@ -1131,7 +1131,7 @@ public class DialogCell extends BaseCell {
                                 }
                             }
                         } else if (drawArrow) {
-                            Drawable arrow = Theme.dialogs_exteraArrowDrawable;
+                            Drawable arrow = Theme.dialogs_viksArrowDrawable;
                             arrow.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider), PorterDuff.Mode.MULTIPLY));
                             emojiStatus.set(arrow, false);
                         }
@@ -1781,7 +1781,7 @@ public class DialogCell extends BaseCell {
                 nameLeft += w;
             }
         } else if (drawArrow) {
-            int w = AndroidUtilities.dp(6) + Theme.dialogs_exteraArrowDrawable.getIntrinsicWidth();
+            int w = AndroidUtilities.dp(6) + Theme.dialogs_viksArrowDrawable.getIntrinsicWidth();
             nameWidth -= w;
             if (LocaleController.isRTL) {
                 nameLeft += w;
@@ -2153,7 +2153,7 @@ public class DialogCell extends BaseCell {
                 } else if (drawVerified) {
                     nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - Theme.dialogs_verifiedDrawable.getIntrinsicWidth());
                 } else if (drawArrow) {
-                    nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - Theme.dialogs_exteraArrowDrawable.getIntrinsicWidth());
+                    nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - Theme.dialogs_viksArrowDrawable.getIntrinsicWidth());
                 } else if (drawPremium) {
                     nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx - left) - AndroidUtilities.dp(24));
                 } else if (drawScam != 0) {
@@ -3605,9 +3605,9 @@ public class DialogCell extends BaseCell {
                 Theme.dialogs_verifiedDrawable.draw(canvas);
                 Theme.dialogs_verifiedCheckDrawable.draw(canvas);
             } else if (drawArrow && !drawPremium || drawArrow && emojiStatus == null || drawArrow && chat != null) {
-                Theme.dialogs_exteraArrowDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider), PorterDuff.Mode.MULTIPLY));
-                setDrawableBounds(Theme.dialogs_exteraArrowDrawable, nameMuteLeft - AndroidUtilities.dp(3), AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 10f : 13f));
-                Theme.dialogs_exteraArrowDrawable.draw(canvas);
+                Theme.dialogs_viksArrowDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+                setDrawableBounds(Theme.dialogs_viksArrowDrawable, nameMuteLeft - AndroidUtilities.dp(3), AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 10f : 13f));
+                Theme.dialogs_viksArrowDrawable.draw(canvas);
             } else if (drawPremium) {
                 if (emojiStatus != null) {
                     emojiStatus.setBounds(
